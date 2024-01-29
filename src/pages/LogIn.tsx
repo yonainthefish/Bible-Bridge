@@ -1,9 +1,11 @@
 import React from 'react';
+import { Button } from '../components/ui/Button';
 
 export default function LogIn() {
   return (
     <>
-      <p>Login</p>
+      
+      <Button>login</Button>
     </>
   );
 }
