@@ -8,14 +8,11 @@ export default function Router() {
   return (
     <>
       <BrowserRouter>
-        <Navbar />
         <Routes>
-          <Route>
-            <Route path="/login" element={<LogIn />} />
-            <Route path="/signup" element={<SignUp />} />
-          </Route>
+          <Route path="/login" element={<LogIn />} />
+          <Route path="/signup" element={<SignUp />} />
 
-          <Route>
+          <Route path="/" element={<Navbar />}>
             <Route path="/" element={<Home />} />
           </Route>
         </Routes>
