@@ -6,10 +6,11 @@ import { Button } from '../components/ui/Button';
 import { Input } from '../components/ui/Input';
 import { Label } from '../components/ui/Label';
 
-import ProfileImg from '../assets/Img/Img-user-add.svg';
+import ProfileImg from '../assets/Img/Img-user.svg';
+import ProfileAddImg from '../assets/Icon/Icon-add-circle.svg';
 
 export default function SignUp() {
-  const { setProfileImage } = useSetProfileImage();
+  const { src, setProfileImage } = useSetProfileImage();
 
   const gradientStyle = {
     backgroundImage:
@@ -22,9 +23,23 @@ export default function SignUp() {
       style={gradientStyle}
     >
       <section className="shadow-slate200 w-[600px]  px-[130px] py-[30px] bg-gray-1 transform translate-x-1/2-translate-y-1/2 rounded-lg flex flex-col items-center overflow-hidden">
-        <h2 className="mx-auto mb-6 text-largeTitle">Sign up</h2>
-        <Label htmlFor="profile-input" className="cursor-pointer mb-7">
-          <img src={ProfileImg} alt="프로필 이미지 등록" />
+        <h2 className="mx-auto mb-1 text-largeTitle">Sign up</h2>
+        <Label
+          htmlFor="profile-input"
+          className="w-[110px] h-[110px] cursor-pointer mb-7 relative"
+        >
+          <div className="w-full h-full rounded-full overflow-hidden ">
+            <img
+              src={src || ProfileImg}
+              alt="프로필 이미지 등록"
+              className="object-cover w-full h-full"
+            />
+            <img
+              src={ProfileAddImg}
+              alt="변경하기"
+              className="absolute bottom-0 right-0"
+            />
+          </div>
         </Label>
         <Input
           id="profile-input"
