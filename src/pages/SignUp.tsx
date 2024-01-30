@@ -18,6 +18,8 @@ export default function SignUp() {
   const [passwordErrMessage, setPasswordErrMessage] = useState('');
   const [passwordConfirmErrMessage, setPasswordConfirmErrMessage] =
     useState('');
+  const [emailValid, setEmailValid] = useState(false);
+  const [passwordValid, setPasswordValid] = useState(false);
   const [matchPassword, setMatchPassword] = useState(false);
   const [introduce, setIntroduce] = useState<null | string>(null);
 
@@ -64,13 +66,33 @@ export default function SignUp() {
 
     if (target.validity.valueMissing) {
       setEmailErrMessage('이메일을 입력해주세요');
+      setEmailValid(false);
     } else {
       setEmailErrMessage('');
+      setEmailValid(true);
     }
   };
 
   const handlePasswordInp = (target: HTMLInputElement) => {
     setPassword(target.value);
+
+    if (target.validity.valueMissing) {
+      setPasswordErrMessage('비밀번호를 입력해주세요');
+      setPasswordValid(false);
+    } else if (target.validity.tooShort) {
+      setPasswordValid(false);
+      setPasswordErrMessage('6자 이상 입력해주세요');
+    } else {
+      setPasswordValid(true);
+      setPasswordErrMessage('');
+    }
+
+    if (target.value !== passwordConfirm) {
+      setMatchPassword(false);
+    } else {
+      setMatchPassword(true);
+      setPasswordConfirmErrMessage('');
+    }
   };
 
   const handlePasswordConfirmInp = (value: string) => {
@@ -109,7 +131,7 @@ export default function SignUp() {
       className="w-screen h-screen  flex items-center justify-center "
       style={gradientStyle}
     >
-      <section className="shadow-slate200 w-[600px] max-h-[600px] px-[130px] py-[30px] bg-gray-1 transform translate-x-1/2-translate-y-1/2 rounded-lg flex flex-col items-center ">
+      <section className="shadow-slate200 w-[600px] max-h-[630px] px-[130px] py-[30px] bg-gray-1 transform translate-x-1/2-translate-y-1/2 rounded-lg flex flex-col items-center ">
         <h2 className="mx-auto text-largeTitle">Sign up</h2>
         <form onSubmit={handleSubmit} className="w-full ">
           <Label
@@ -146,6 +168,17 @@ export default function SignUp() {
             onChange={handleInp}
             required
           />
+          <div style={{ position: 'relative' }}>
+            <strong
+              role="alert"
+              className={`text-error text-smaller ${
+                emailErrMessage ? 'visible' : 'invisible'
+              }`}
+              style={{ position: 'absolute', left: '10px', top: '-17px' }}
+            >
+              {emailErrMessage && `*${emailErrMessage}`}
+            </strong>
+          </div>
 
           <Label htmlFor="password-input" className="sr-only">
             비밀번호
@@ -153,10 +186,21 @@ export default function SignUp() {
           <Input
             type="password"
             id="password-input"
-            placeholder="비밀번호"
+            placeholder="비밀번호 (6자 이상 입력해주세요)"
             onChange={handleInp}
             required
           />
+          <div style={{ position: 'relative' }}>
+            <strong
+              role="alert"
+              className={`text-error text-smaller   ${
+                passwordErrMessage ? 'visible' : 'invisible'
+              }`}
+              style={{ position: 'absolute', left: '10px', top: '-17px' }}
+            >
+              {passwordErrMessage && `*${passwordErrMessage}`}
+            </strong>
+          </div>
 
           <Label htmlFor="passwordConfirm-input" className="sr-only">
             비밀번호 확인
@@ -168,6 +212,17 @@ export default function SignUp() {
             onChange={handleInp}
             required
           />
+          <div style={{ position: 'relative' }}>
+            <strong
+              role="alert"
+              className={`text-error text-smaller   ${
+                passwordConfirmErrMessage ? 'visible' : 'invisible'
+              }`}
+              style={{ position: 'absolute', left: '10px', top: '-17px' }}
+            >
+              {passwordConfirmErrMessage && `*${passwordConfirmErrMessage}`}
+            </strong>
+          </div>
 
           <Label htmlFor="displayName-input" className="sr-only">
             닉네임
@@ -175,7 +230,7 @@ export default function SignUp() {
           <Input
             type="text"
             id="displayName-input"
-            placeholder="닉네임"
+            placeholder="닉네임 (2자 ~ 20자 내외)"
             onChange={handleInp}
             required
           />
@@ -192,7 +247,15 @@ export default function SignUp() {
           <strong role="alert">
             {passwordConfirmErrMessage && `*${passwordConfirmErrMessage}`}
           </strong>
-          <Button>완료</Button>
+          <Button
+            className={` ${
+              !emailValid || !passwordValid || !matchPassword
+                ? ' cursor-not-allowed'
+                : ''
+            }`}
+          >
+            완료
+          </Button>
         </form>
         <div className="flex items-center gap-4  pt-7">
           <p className="text-gray-600 text-small ">이미 회원이세요?</p>
