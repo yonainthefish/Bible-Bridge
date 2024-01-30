@@ -21,9 +21,7 @@ const buttonVariants = cva(
       },
       size: {
         /** h: 높이, px:좌우패딩, py:상하패딩 rounded: border-radius, */
-        default: ' rounded-lg px-12 py-3',
-        // sm: 'h-9 rounded-md px-3',
-        // lg: 'h-11 rounded-md px-8',
+        default: 'max-w-47 w-[148px] h-10 px-12 py-3 rounded-lg',
         icon: 'h-14 w-14',
       },
     },
