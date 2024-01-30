@@ -12,12 +12,11 @@ export default {
   prefix: '',
   theme: {
     container: {
-      center: true,
-      padding: '2rem',
-      screens: {
-        '2xl': '1400px',
-        pc: '1920px',
-      },
+      // center: true,
+      // screens: {
+      //   '2xl': '1400px',
+      //   pc: '1920px',
+      // },
     },
 
     extend: {
@@ -41,11 +40,11 @@ export default {
           DEFAULT: '#1f1f1f',
           800: '#393939',
           700: '#525252',
-          600: '#525252',
-          500: '#525252',
-          400: '#525252',
-          300: '#525252',
-          200: '#525252',
+          600: '#6C6C6C',
+          500: '#858585',
+          400: '#9F9F9F',
+          300: '#B8B8B8',
+          200: '#D2D2D2',
           100: '#EBEBEB',
           1: '#fbfbfb',
         },
@@ -88,22 +87,38 @@ export default {
         sm: '8px',
       },
 
-      keyframes: {
-        'accordion-down': {
-          from: { height: '0' },
-          to: { height: 'var(--radix-accordion-content-height)' },
-        },
-        'accordion-up': {
-          from: { height: 'var(--radix-accordion-content-height)' },
-          to: { height: '0' },
-        },
+      fontSize: {
+        small: '14px',
+        basic: '16px',
+        large: '18px',
+        title: '30px',
+        largeTitle: '45px',
       },
 
+      fontWeight: {
+        500: '500',
+        600: '600',
+        700: '700',
+      },
+
+      keyframes: {
+        'gradient-move': {
+          '0%, 100%': {
+            backgroundPosition: '0% 50%',
+          },
+          '50%': {
+            backgroundPosition: '100% 50%',
+          },
+        },
+      },
       animation: {
-        'accordion-down': 'accordion-down 0.2s ease-out',
-        'accordion-up': 'accordion-up 0.2s ease-out',
+        'gradient-move': 'gradient-move 0.1s linear infinite',
+      },
+
+      boxShadow: {
+        slate200: '7px 7px 6px 5px rgba(244, 163, 122, 0.5)',
       },
     },
+    plugins: [tailwindcssAnimate],
   },
-  plugins: [tailwindcssAnimate],
 };
