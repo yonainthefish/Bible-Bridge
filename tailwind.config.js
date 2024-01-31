@@ -88,6 +88,7 @@ export default {
       },
 
       fontSize: {
+        smaller: '12px',
         small: '14px',
         basic: '16px',
         large: '18px',
