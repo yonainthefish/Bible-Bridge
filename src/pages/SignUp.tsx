@@ -22,9 +22,12 @@ export default function SignUp() {
   const [passwordValid, setPasswordValid] = useState(false);
   const [matchPassword, setMatchPassword] = useState(false);
   const [introduce, setIntroduce] = useState<null | string>(null);
+  const [displayNameErrMessage, setDisplayNameErrMessage] = useState('');
+  const [displayNameValid, setDisplayNameValid] = useState(false);
 
   const { file, src, setProfileImage } = useSetProfileImage();
   const { error, signup } = useSignup();
+
   const gradientStyle = {
     backgroundImage:
       'linear-gradient(113.78deg, rgba(250, 218, 128, 0.4) 21.18%, rgba(243, 117, 37, 0.4) 55.65%, rgba(237, 67, 35, 0.4) 82.73%)',
@@ -97,6 +100,8 @@ export default function SignUp() {
 
   const handlePasswordConfirmInp = (value: string) => {
     setPasswordConfirm(value);
+    // console.log('value:', value);
+    // console.log('password:', password);
 
     if (value !== password) {
       setMatchPassword(false);
@@ -104,6 +109,18 @@ export default function SignUp() {
     } else {
       setMatchPassword(true);
       setPasswordConfirmErrMessage('');
+    }
+  };
+
+  const handleDisplayNameInp = (value: string) => {
+    setDisplayName(value);
+
+    if (value.length < 2 || value.length > 15) {
+      setDisplayNameValid(false);
+      setDisplayNameErrMessage('닉네임은 2자 이상 15자 이하로 입력해주세요');
+    } else {
+      setDisplayNameValid(true);
+      setDisplayNameErrMessage('');
     }
   };
 
@@ -115,13 +132,13 @@ export default function SignUp() {
       case 'password-input':
         handlePasswordInp(e.target);
         break;
-      case 'passwordConfirm-inp':
+      case 'passwordConfirm-input':
         handlePasswordConfirmInp(e.target.value);
         break;
-      case 'displayName-inp':
-        setDisplayName(e.target.value);
+      case 'displayName-input':
+        handleDisplayNameInp(e.target.value);
         break;
-      case 'introduce':
+      case 'introduce-input':
         setIntroduce(e.target.value);
     }
   };
@@ -230,11 +247,21 @@ export default function SignUp() {
           <Input
             type="text"
             id="displayName-input"
-            placeholder="닉네임 (2자 ~ 20자 내외)"
+            placeholder="닉네임 (2자 ~ 15자 내외)"
             onChange={handleInp}
             required
           />
-
+          <div style={{ position: 'relative' }}>
+            <strong
+              role="alert"
+              className={`text-error text-smaller   ${
+                displayNameErrMessage ? 'visible' : 'invisible'
+              }`}
+              style={{ position: 'absolute', left: '10px', top: '-17px' }}
+            >
+              {displayNameErrMessage && `*${displayNameErrMessage}`}
+            </strong>
+          </div>
           <Label htmlFor="introduce-input" className="sr-only">
             소개 성경 구절
           </Label>
@@ -244,13 +271,14 @@ export default function SignUp() {
             placeholder="나의 힘이 되는 성경 구절을 적어 주세요"
             onChange={handleInp}
           />
-          <strong role="alert">
-            {passwordConfirmErrMessage && `*${passwordConfirmErrMessage}`}
-          </strong>
+
           <Button
-            className={` ${
-              !emailValid || !passwordValid || !matchPassword
-                ? ' cursor-not-allowed'
+            className={`${
+              !emailValid ||
+              !passwordValid ||
+              !matchPassword ||
+              !displayNameValid
+                ? 'opacity-30 cursor-not-allowed'
                 : ''
             }`}
           >
