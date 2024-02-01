@@ -59,7 +59,7 @@ export default function useSignup() {
       if (opt.displayName || opt.photoURL) {
         await updateProfile(user, opt);
       }
-
+      setError(null);
       dispatch({ type: 'login', payload: user });
     } catch (err) {
       if (err instanceof FirebaseError) {
