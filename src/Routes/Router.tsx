@@ -1,7 +1,7 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { AuthRoute, NonAuthRoute } from './AuthRoute';
 import useAuthContext from '../hook/useAuthContext';
-import NavCommonRoute from '@/Routes/NavCommonRoute';
+import NavCommonRoute from '@/Routes/LayoutRoute';
 
 import Splash from '@/pages/Splaysh/Splash';
 import StaticSplash from '@/pages/Splaysh/StaticSplash';
@@ -9,7 +9,7 @@ import StaticSplash from '@/pages/Splaysh/StaticSplash';
 import LogIn from '@/pages/LogIn';
 import SignUp from '@/pages/SignUp';
 import Home from '@/pages/Home';
-import MyPage from '@/pages/MyPage';
+import MyPage from '@/pages/Mypage/MyPage';
 
 export default function Router() {
   const { isAuthReady } = useAuthContext();
