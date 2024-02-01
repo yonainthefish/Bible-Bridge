@@ -46,6 +46,7 @@ export default {
           300: '#B8B8B8',
           200: '#D2D2D2',
           100: '#EBEBEB',
+          50: '#F3F5F8',
           1: '#fbfbfb',
           0: '#ffffff',
         },
@@ -89,9 +90,11 @@ export default {
       },
 
       fontSize: {
+        decoSize: '10px',
         smaller: '12px',
         small: '14px',
         basic: '16px',
+        nameSize: '20px',
         large: '18px',
         title: '30px',
         largeTitle: '45px',
