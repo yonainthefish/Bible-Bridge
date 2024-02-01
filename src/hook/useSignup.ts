@@ -4,7 +4,6 @@ import { FirebaseError } from 'firebase/app';
 
 import useAuthContext from './useAuthContext';
 import { uploadImg } from '../utils/SDKUtils.ts';
-import useAddAlbum from './useAddAlbum.ts';
 
 import { appAuth } from '../firebase/config';
 
@@ -20,7 +19,6 @@ export default function useSignup() {
   const [error, setError] = useState<string | null>(null);
   const [isPending, setPending] = useState(false);
   const { dispatch } = useAuthContext();
-  const addAlbum = useAddAlbum();
 
   const signup = async ({
     email,
@@ -62,8 +60,6 @@ export default function useSignup() {
         await updateProfile(user, opt);
       }
 
-      await addAlbum({ albumName: '전체 보기', user });
-      setError(null);
       dispatch({ type: 'login', payload: user });
     } catch (err) {
       if (err instanceof FirebaseError) {
