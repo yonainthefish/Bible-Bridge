@@ -8,6 +8,7 @@ import { Label } from '../components/ui/Label';
 
 import ProfileImg from '../assets/Img/Img-user.svg';
 import ProfileAddImg from '../assets/Icon/Icon-add-circle.svg';
+import LoadingIcon from '@/assets/Icon/Icon-loading-black.svg';
 
 export default function SignUp() {
   const [email, setEmail] = useState('');
@@ -26,7 +27,7 @@ export default function SignUp() {
   const [displayNameValid, setDisplayNameValid] = useState(false);
 
   const { file, src, setProfileImage } = useSetProfileImage();
-  const { error, signup } = useSignup();
+  const { error, signup, isPending } = useSignup();
 
   const gradientStyle = {
     backgroundImage:
@@ -277,12 +278,17 @@ export default function SignUp() {
               !emailValid ||
               !passwordValid ||
               !matchPassword ||
-              !displayNameValid
+              !displayNameValid ||
+              isPending
                 ? 'opacity-30 cursor-not-allowed'
                 : ''
             }`}
           >
-            완료
+            {isPending ? (
+              <img src={LoadingIcon} alt="계정 생성 중" />
+            ) : (
+              '회원가입 완료'
+            )}
           </Button>
         </form>
         <div className="flex items-center gap-4  pt-7">
