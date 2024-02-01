@@ -47,6 +47,7 @@ export default {
           200: '#D2D2D2',
           100: '#EBEBEB',
           1: '#fbfbfb',
+          0: '#ffffff',
         },
 
         error: {
