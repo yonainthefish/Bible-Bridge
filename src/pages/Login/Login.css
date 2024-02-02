@@ -1,0 +1,21 @@
+.before-border::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 40%;
+  height: 0.5px;
+  background-color: #6c6c6c;
+  z-index: 99;
+}
+
+.before-border::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  right: 0;
+  width: 40%;
+  height: 0.5px;
+  background-color: #6c6c6c;
+  z-index: 99;
+}
