@@ -1,18 +1,19 @@
 import { ChangeEvent, FormEvent, useEffect, useState } from 'react';
-// import { useNavigate } from 'react-router-dom';
+
 import { Link } from 'react-router-dom';
 
-import { useLogin } from '../hook/useLogin';
+import { useLogin } from '@/hook/useLogin';
 
-import { Button } from '../components/ui/Button';
-import { Input } from '../components/ui/Input';
-import { Label } from '../components/ui/Label';
+import { Button } from '@/components/ui/Button';
+import { Input } from '@/components/ui/Input';
+import { Label } from '@/components/ui/Label';
+import './Login.css';
 
-import LogoImg from '../assets/Img/Logo-small.svg';
-import LogoText from '../assets/Img/Logo-text-small.svg';
-import googleIcon from '../assets/Img/Img-google.svg';
-import githubIcon from '../assets/Img/Img-github.svg';
-import kakaoIcon from '../assets/Img/Img-kakao.svg';
+import LogoImg from '@/assets/Img/Logo-small.svg';
+import LogoText from '@/assets/Img/Logo-text-small.svg';
+import googleIcon from '@/assets/Img/Img-google.svg';
+import githubIcon from '@/assets/Img/Img-github.svg';
+import kakaoIcon from '@/assets/Img/Img-kakao.svg';
 import LoadingIcon from '@/assets/Icon/Icon-loading-black.svg';
 
 export default function LogIn() {
@@ -29,11 +30,9 @@ export default function LogIn() {
   };
 
   const { login, error, isPending } = useLogin();
-  
 
   useEffect(() => {
     if (error === null) {
-  
       return;
     }
 
@@ -106,11 +105,15 @@ export default function LogIn() {
       <section className="shadow-slate200 w-[600px] max-h-[800px] px-[130px] py-[50px] bg-gray-1 transform translate-x-1/2-translate-y-1/2 rounded-lg flex flex-col items-center overflow-hidden">
         <h1 className="mx-auto mb-6">
           <img
-            className="mx-auto"
+            className="mx-auto "
             src={LogoImg}
             alt="바이블브릿지 일러스트 로고"
           />
-          <img src={LogoText} alt="바이블브릿지 텍스트 로고" />
+          <img
+            src={LogoText}
+            alt="바이블브릿지 텍스트 로고"
+            className="w-[250px]"
+          />
         </h1>
 
         <form className="w-[100%]" onSubmit={handleSubmit}>
@@ -171,10 +174,14 @@ export default function LogIn() {
             {isPending ? <img src={LoadingIcon} alt="로그인 중" /> : '로그인'}
           </Button>
         </form>
+        <div className="w-full mt-10 relative">
+          <div className="before-border">
+            <p className="w-[30%] mx-auto text-small text-gray-600 relative z-100">
+              간편 로그인
+            </p>
+          </div>
+        </div>
 
-        <p className="w-[100%] mt-12 text-small text-gray-600 bg-gray-basic-700">
-          간편 로그인
-        </p>
         <div className="flex gap-5 m-5">
           <a href="">
             <img
