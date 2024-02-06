@@ -1,26 +1,56 @@
-import React from 'react';
+import { useState } from 'react';
 
-import ProfileCard from '@/components/card/ProfileCard';
+import ProfileCard from '@/components/cardUi/ProfileCard';
 import './MyPage.css';
+import FeedUi from '@/components/cardUi/FeedUi';
+import { Calendar } from '@/components/ui/Calendar';
+
+type ContentType = 'calendar' | 'meditation';
+
+interface ButtonInfo {
+  type: ContentType;
+  label: string;
+}
 
 export default function MyPage() {
+  const [selectedContent, setSelectedContent] =
+    useState<ContentType>('calendar');
+  const buttons: ButtonInfo[] = [
+    { type: 'calendar', label: '달력' },
+    { type: 'meditation', label: '전체묵상' },
+  ];
+
+  const handleBtnClick = (content: ContentType) => {
+    setSelectedContent(content);
+  };
+
   return (
-    <>
-      <main className="h-[100vh] ">
-        <div className="before-element z-0"></div>
-        <div className="flex pl-[70px] pr-[150px] pt-[150px] gap-10 z-10">
-          <section className="relative">
-            <ProfileCard />
-          </section>
-          <section className="w-[1000px] h-[1000px] bg-gray-400 relative">
-            <div className="mt-[180px] text-left">
-              <button className="mx-4 ">달력</button>
-              <button className="mx-4">전체묵상</button>
-            </div>
-            <div className="bg-gray-100 mt-5">게시글, 달력 input 부분</div>
-          </section>
-        </div>
-      </main>
-    </>
+    <main className="h-[100vh] ">
+      <div className="before-element z-0"></div>
+      <div className="flex pl-[70px] pr-[150px] pt-[100px] gap-10 z-10">
+        <section className="relative">
+          <ProfileCard />
+        </section>
+        <section className="w-[1000px] h-[1000px] bg-gray-400 relative">
+          <div className="mt-[180px] text-left">
+            {buttons.map((button) => (
+              <button
+                key={button.type}
+                className={`mx-4 ${
+                  selectedContent === button.type ? 'font-bold' : ''
+                }`}
+                onClick={() => handleBtnClick(button.type)}
+              >
+                {button.label}
+              </button>
+            ))}
+          </div>
+          <div className="bg-gray-100 mt-5">
+            {selectedContent === 'calendar' ? <Calendar /> : null}
+            {selectedContent === 'meditation' ? <FeedUi /> : null}
+          </div>
+        </section>
+      </div>
+    </main>
   );
 }
