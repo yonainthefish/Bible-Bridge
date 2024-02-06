@@ -43,7 +43,6 @@ function AuthContextProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     const unsubscribe = appAuth.onAuthStateChanged((user) => {
       dispatch({ type: 'isAuthReady', payload: user });
-      console.log('hiii');
     });
 
     return () => {
