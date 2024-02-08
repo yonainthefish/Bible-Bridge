@@ -8,10 +8,12 @@ import homeIcon from '@/assets/Icon/Icon-home.svg';
 import uploadIcon from '@/assets/Icon/Icon-upload.svg';
 import mypageIcon from '@/assets/Icon/Icon-my.svg';
 import logoutIcon from '@/assets/Icon/Icon-logout.svg';
+import exploreIcon from '@/assets/Icon/Icon-explore.svg';
 
 const menuItems = [
-  { to: '/search', label: 'Search', image: searchIcon },
   { to: '/home', label: 'Home', image: homeIcon },
+  { to: '/search', label: 'Search', image: searchIcon },
+  { to: '/explore', label: 'Explore', image: exploreIcon },
   { to: '/upload', label: 'Upload', image: uploadIcon },
   { to: '/mypage', label: 'My', image: mypageIcon },
   { to: '/login', label: 'Logout', image: logoutIcon },
