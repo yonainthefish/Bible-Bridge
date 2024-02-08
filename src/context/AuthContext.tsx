@@ -1,7 +1,7 @@
 import { createContext, useReducer, useEffect } from 'react';
 import { User } from 'firebase/auth';
 
-import { appAuth } from '../firebase/config';
+import { appAuth } from '@/firebase/config';
 
 interface State {
   user: null | User;
