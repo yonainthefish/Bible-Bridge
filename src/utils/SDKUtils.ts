@@ -3,7 +3,7 @@ import {
   ref,
   deleteObject,
   getDownloadURL,
-  uploadBytesResumable,
+  uploadBytes,
 } from 'firebase/storage';
 
 import { storage, appAuth } from '../firebase/config.ts';
@@ -24,9 +24,9 @@ async function deleteImg(url: string) {
 
 async function uploadImg(path: string, file: File) {
   const storageRef = ref(storage, path);
-  const uploadTask = uploadBytesResumable(storageRef, file);
+  await uploadBytes(storageRef, file);
 
-  const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
+  const downloadURL = await getDownloadURL(storageRef);
   return downloadURL;
 }
 
