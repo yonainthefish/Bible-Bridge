@@ -3,16 +3,16 @@ import { AuthRoute, NonAuthRoute } from '@/routes/AuthRoute';
 import useAuthContext from '@/hook/useAuthContext';
 import NavCommonRoute from '@/routes/LayoutRoute';
 
-import Splash from '@/pages/Splaysh/Splash';
-import StaticSplash from '@/pages/Splaysh/StaticSplash';
+import Splash from '@/pages/splaysh/Splash';
+import StaticSplash from '@/pages/splaysh/StaticSplash';
 
-import LogIn from '@/pages/Login/LogIn';
+import LogIn from '@/pages/login/LogIn';
 import SignUp from '@/pages/SignUp';
 import Home from '@/pages/Home';
-import MyPage from '@/pages/Mypage/MyPage';
+import MyPage from '@/pages/mypage/MyPage';
 import Setting from '@/pages/Setting';
-import Upload from '@/components/uploadUI/Upload';
-
+import Upload from '@/pages/upload/Upload';
+import Explore from '@/pages/Explore';
 export default function Router() {
   const { isAuthReady } = useAuthContext();
 
@@ -35,7 +35,8 @@ export default function Router() {
                   <Route path="/home" element={<Home />} />
                   <Route path="/mypage" element={<MyPage />} />
                   <Route path="/upload" element={<Upload />} />
-                  <Route path="/setting" element={<Setting />}></Route>
+                  <Route path="/setting" element={<Setting />} />
+                  <Route path="/explore" element={<Explore />} />
                 </Route>
               </Route>
             </>
