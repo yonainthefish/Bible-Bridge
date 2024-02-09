@@ -9,7 +9,7 @@ import StaticSplash from '@/pages/splaysh/StaticSplash';
 import LogIn from '@/pages/login/LogIn';
 import SignUp from '@/pages/SignUp';
 import Home from '@/pages/Home';
-import MyPage from '@/pages/mypage/MyPage';
+import MyPage from '@/pages/myPage/MyPage';
 import Setting from '@/pages/Setting';
 import Upload from '@/pages/upload/Upload';
 import Explore from '@/pages/Explore';
