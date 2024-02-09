@@ -44,7 +44,7 @@ export default function Upload() {
           userId: user.uid,
         };
         await setDoc(userDocRef, uploadData);
-        navigate(`/mypage`);
+        navigate(`/myPage`);
       } else {
         console.error('사용자가 로그인돠지 않았습니다.');
       }
