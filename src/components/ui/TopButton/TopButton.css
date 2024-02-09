@@ -1,0 +1,12 @@
+.topBtn {
+  position: absolute;
+  bottom: 30px;
+  right: 110px;
+  background-color: blanchedalmond;
+  opacity: 0;
+  z-index: 1;
+}
+
+.topBtn.active {
+  opacity: 1;
+}
