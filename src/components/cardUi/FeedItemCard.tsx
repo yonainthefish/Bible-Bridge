@@ -16,7 +16,7 @@ import useAuthContext from '@/hook/useAuthContext';
 import useGetFeedData from '@/hook/useGetFeedDate';
 import useEditContext from '@/hook/useEditContext';
 
-import Overlay from '@/components/ui/Overlay';
+import Overlay from '@/components/ui/overlay/Overlay';
 import Modal from '@/components/modalUi/SelectModal';
 import DeleteFeedModal from '@/components/modalUi/DeleteFeedModal';
 

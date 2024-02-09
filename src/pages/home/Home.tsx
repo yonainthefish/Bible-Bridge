@@ -1,7 +1,7 @@
 import React from 'react';
-import { Calendar } from '@/components/ui/Calendar';
+import { Calendar } from '@/components/ui/calendar/Calendar';
 import FeedUi from '@/components/cardUi/FeedItemCard';
-import TopButton from '@/components/ui/TopButton/TopButton';
+import TopButton from '@/components/ui/topButton/TopButton';
 export default function Home() {
   const [date, setDate] = React.useState<Date | undefined>(new Date());
 

@@ -3,16 +3,16 @@ import { AuthRoute, NonAuthRoute } from '@/routes/AuthRoute';
 import useAuthContext from '@/hook/useAuthContext';
 import NavCommonRoute from '@/routes/LayoutRoute';
 
-import Splash from '@/pages/splaysh/Splash';
-import StaticSplash from '@/pages/splaysh/StaticSplash';
+import Splash from '@/pages/splash/Splash';
+import StaticSplash from '@/pages/splash/StaticSplash';
 
 import LogIn from '@/pages/login/LogIn';
-import SignUp from '@/pages/SignUp';
-import Home from '@/pages/Home';
+import SignUp from '@/pages/signup/SignUp';
+import Home from '@/pages/home/Home';
 import MyPage from '@/pages/myPage/MyPage';
-import Setting from '@/pages/Setting';
+import Setting from '@/pages/setting/Setting';
 import Upload from '@/pages/upload/Upload';
-import Explore from '@/pages/Explore';
+import Explore from '@/pages/explore/Explore';
 export default function Router() {
   const { isAuthReady } = useAuthContext();
 

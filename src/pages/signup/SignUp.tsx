@@ -1,10 +1,10 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import useSetProfileImage from '../hook/useSetProfileImage';
-import useSignup from '../hook/useSignup';
-import { Button } from '../components/ui/Button';
-import { Input } from '../components/ui/Input';
-import { Label } from '../components/ui/Label';
+import useSetProfileImage from '../../hook/useSetProfileImage';
+import useSignup from '../../hook/useSignup';
+import { Button } from '../../components/ui/button/Button';
+import { Input } from '../../components/ui/input/Input';
+import { Label } from '../../components/ui/label/Label';
 
 import ProfileImg from '../assets/Img/Img-user.svg';
 import ProfileAddImg from '../assets/Icon/Icon-add-circle.svg';

@@ -4,9 +4,9 @@ import { Link } from 'react-router-dom';
 
 import { useLogin } from '@/hook/useLogin';
 
-import { Button } from '@/components/ui/Button';
-import { Input } from '@/components/ui/Input';
-import { Label } from '@/components/ui/Label';
+import { Button } from '@/components/ui/button/Button';
+import { Input } from '@/components/ui/input/Input';
+import { Label } from '@/components/ui/label/Label';
 import './Login.css';
 
 import LogoImg from '@/assets/Img/Logo-small.svg';
