@@ -30,9 +30,9 @@ interface FeedItem {
   text: string;
   timestamp: Timestamp;
   imageUrl?: string;
-  userId?: string | undefined; // ��성자 ID
-  authorPhotoURL?: string; // 작성자 프로필 사진 URL
-  authorDisplayName?: string; // 작성자 이름
+  userId?: string | undefined;
+  authorPhotoURL?: string;
+  authorDisplayName?: string;
 }
 
 export default function FeedItemCard() {
@@ -41,8 +41,6 @@ export default function FeedItemCard() {
   const [feeds, setFeeds] = useState<FeedItem[]>([]);
   const { user } = useAuthContext();
   const { id } = useParams();
-  // const [time, setTime] = useState('');
-  // const [InvalidId, setInvalidId] = useState(false);
   const [feedData, setFeedData] = useState<DocumentData | null>(null);
   const getFeedData = useGetFeedData();
   const { isEditModalOpen } = useEditContext();
@@ -66,15 +64,6 @@ export default function FeedItemCard() {
 
       if (feedData) {
         setFeedData(feedData);
-
-        // const date = new Date(feedData.timestamp.toDate());
-        // const time = new Date(date.setHours(date.getHours() + 9))
-        //   .toISOString()
-        //   .slice(0, 10);
-
-        // setTime(time);
-      } else {
-        // setInvalidId(true);
       }
     })();
   }, [isEditModalOpen]);
@@ -102,16 +91,21 @@ export default function FeedItemCard() {
           const feedList = await Promise.all(
             querySnapshot.docs.map(async (doc) => {
               const data = doc.data() as FeedItem;
-              const userInfo = await getUserInfo(data.userId); // 사용자 정보 조회
+              let userInfo = null;
+
+              if (data.userId) {
+                userInfo = await getUserInfo(data.userId);
+              }
+
               return {
                 id: doc.id,
                 title: data.title,
                 text: data.text,
                 timestamp: data.timestamp,
                 imageUrl: data.imageUrl,
-                authorPhotoURL: userInfo?.photoURL, // 작성자 프로필 사진 URL
-                authorDisplayName: userInfo?.displayName, // 작성자 이름
-                userId: data.userId, // 게시물에 저장된 userId 포함
+                authorPhotoURL: userInfo?.photoURL,
+                authorDisplayName: userInfo?.displayName,
+                userId: data.userId,
               };
             }),
           );
@@ -139,7 +133,6 @@ export default function FeedItemCard() {
       <section className="flex flex-wrap gap-5">
         {feeds.map((feed) => (
           <div className="w-[240px] bg-white" key={feed.id}>
-            {/* <div key={feed.id}> */}
             <div className="flex justify-between my-1 px-2">
               <div className="flex items-center gap-2">
                 <img
@@ -158,7 +151,6 @@ export default function FeedItemCard() {
               >
                 <img src={SeeMore} alt="더보기" />
               </button>
-              {/* </div> */}
             </div>
             <section className="aspect-square border-2 rounded-lg overflow-hidden relative">
               {feed.imageUrl && (
@@ -184,7 +176,7 @@ export default function FeedItemCard() {
         ))}
       </section>
 
-      {isModalOpen && (
+      {isModalOpen && id && (
         <Modal
           setDeleteModalOpen={setDeleteModalOpen}
           feedId={id}
@@ -194,7 +186,7 @@ export default function FeedItemCard() {
       {deleteModalOpen && (
         <DeleteFeedModal
           onClose={handleDeleteCloseModal}
-          imgUrlList={feedData.imageUrl}
+          imgUrlList={feedData?.imageUrl}
         />
       )}
     </>
