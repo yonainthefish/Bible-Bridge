@@ -1,8 +1,9 @@
 import { useState } from 'react';
-import { appAuth } from '../firebase/config';
-import useAuthContext from './useAuthContext';
-import { signInWithEmailAndPassword } from 'firebase/auth';
+import { appAuth } from '@/firebase/config';
 import { FirebaseError } from 'firebase/app';
+import { signInWithEmailAndPassword } from 'firebase/auth';
+
+import useAuthContext from '@/hook/useAuthContext';
 
 export const useLogin = () => {
   const [error, setError] = useState<string | null>(null);

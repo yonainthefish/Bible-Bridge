@@ -1,10 +1,10 @@
 import { getDoc, doc } from 'firebase/firestore';
+import { appFireStore } from '@/firebase/config';
 
 import useAuthContext from '@/hook/useAuthContext';
 
-import { appFireStore } from '@/firebase/config';
-
 import { v4 as uuidv4 } from 'uuid';
+
 export default function useGetFeedData() {
   const { user } = useAuthContext();
 

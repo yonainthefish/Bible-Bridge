@@ -2,16 +2,9 @@ import { useState } from 'react';
 import { updateProfile, updateEmail, updatePassword } from 'firebase/auth';
 import { FirebaseError } from 'firebase/app';
 
-import useAuthContext from './useAuthContext';
-import { uploadImg } from '../utils/SDKUtils';
-
-interface Profile {
-  email: string | null;
-  password: string | null;
-  displayName: string | null;
-  file: File | null;
-//   introduce: string | null;
-}
+import useAuthContext from '@/hook/useAuthContext';
+import { Profile } from '@/hook/model';
+import { uploadImg } from '@/utils/SDKUtils';
 
 export const useUpdateProfile = () => {
   const [error, setError] = useState<null | string>(null);
@@ -33,7 +26,6 @@ export const useUpdateProfile = () => {
     interface Opt {
       displayName: string | null;
       photoURL?: string;
-    //   introduce: string | null;
     }
 
     const opt: Opt = { displayName };

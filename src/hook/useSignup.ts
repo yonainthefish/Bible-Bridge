@@ -1,20 +1,12 @@
 import { useState } from 'react';
-import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
+import { appFireStore, appAuth } from '@/firebase/config';
 import { FirebaseError } from 'firebase/app';
 import { doc, setDoc } from 'firebase/firestore';
-import { appFireStore } from '@/firebase/config';
-import useAuthContext from './useAuthContext';
-import { uploadImg } from '../utils/SDKUtils.ts';
+import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
 
-import { appAuth } from '../firebase/config';
-
-interface Props {
-  email: string;
-  password: string;
-  displayName: string | null;
-  file: File | null;
-  introduce: string | null;
-}
+import { Props } from '@/hook/model';
+import useAuthContext from '@/hook/useAuthContext';
+import { uploadImg } from '@/utils/SDKUtils.ts';
 
 export default function useSignup() {
   const [error, setError] = useState<string | null>(null);
@@ -56,9 +48,7 @@ export default function useSignup() {
       if (file !== null) {
         opt.photoURL = await uploadImg(`profile/${user.uid}`, file);
       }
-      if (file !== null) {
-        opt.photoURL = await uploadImg(`profile/${user.uid}`, file);
-      }
+
       await updateProfile(user, opt);
 
       const userProfile = {

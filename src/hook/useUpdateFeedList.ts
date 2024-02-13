@@ -1,8 +1,8 @@
+import { appFireStore } from '@/firebase/config';
 import { doc, updateDoc, arrayUnion, arrayRemove } from 'firebase/firestore';
 
-import useAuthContext from './useAuthContext';
+import useAuthContext from '@/hook/useAuthContext';
 
-import { appFireStore } from '../firebase/config';
 
 export function useRemoveFeedIdFromFeedList() {
   const { user } = useAuthContext();
