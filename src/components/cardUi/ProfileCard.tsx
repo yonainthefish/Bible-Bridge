@@ -6,8 +6,9 @@ import { appFireStore } from '@/firebase/config';
 
 import useAuthContext from '@/hook/useAuthContext';
 
+import UserProfile from '@/components/cardUi/UserProfile';
 import { Button } from '@/components/commonUi/button/Button';
-import FollowCard from '@/components/cardUi/FollowCard';
+
 import UserProfileImg from '@/assets/Img/Img-user.svg';
 
 export default function ProfileCard() {
@@ -15,7 +16,6 @@ export default function ProfileCard() {
   const [userDetails, setUserDetails] = useState<DocumentData | null>(null);
 
   const navigate = useNavigate();
-  console.log(user);
 
   const handleEditProfile = () => {
     navigate('/setting');
@@ -64,22 +64,10 @@ export default function ProfileCard() {
           </Button>
         </Link>
       </section>
-      <section id="followerBox" className="mt-12">
-        <div className="bg-gray-50 py-5 rounded-md flex justify-around ">
-          <div>
-            <p className="text-smaller">팔로워</p>
-            <p className="text-title mt-[-8px] font-bold">15</p>
-          </div>
-          <div>
-            <p className="text-smaller">팔로워</p>
-            <p className="text-title mt-[-8px] font-bold">15</p>
-          </div>
-        </div>
-        <ul>
-          <li>
-            <FollowCard />
-          </li>
-        </ul>
+      <section className="mt-12">
+        {user && (
+          <UserProfile userId={user.uid} displayName={user.displayName || "Unknown User"} />
+        )}
       </section>
     </article>
   );

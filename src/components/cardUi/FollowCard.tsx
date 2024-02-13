@@ -11,14 +11,9 @@ import {
 import useAuthContext from '@/hook/useAuthContext';
 
 import { Button } from '@/components/commonUi/button/Button';
+import { FollowCardProps } from '@/components/cardUi/Model';
 
 import BasicUserImg from '@/assets/Img/Img-user.svg';
-
-interface FollowCardProps {
-  userId: string;
-  displayName: string;
-  photoURL?: string;
-}
 
 export default function FollowCard({
   userId,
@@ -31,7 +26,7 @@ export default function FollowCard({
 
   useEffect(() => {
     const checkFollowingStatus = async () => {
-      if (!user || !userId) return;
+      if (!user) return;
 
       const targetUserRef = doc(db, 'users', userId);
       const docSnap = await getDoc(targetUserRef);
@@ -48,7 +43,7 @@ export default function FollowCard({
   }, [user, userId, db]);
 
   const handleFollow = async () => {
-    if (!user || !userId) return;
+    if (!user) return;
 
     const userRef = doc(db, 'users', user.uid);
     const targetUserRef = doc(db, 'users', userId);

@@ -20,21 +20,11 @@ import Overlay from '@/components/commonUi/overlay/Overlay';
 import Modal from '@/components/modalUi/SelectModal';
 import DeleteFeedModal from '@/components/modalUi/DeleteFeedModal';
 import LikeButton from '@/components/userReactionUi/likeUi/Like';
+import { FeedItem } from '@/components/cardUi/Model';
 
 import Calendar from '@/assets/Icon/Icon-calendar.svg';
 import SeeMore from '@/assets/Icon/Icon-More.svg';
 import BasicUserImg from '@/assets/Img/Img-user.svg';
-
-interface FeedItem {
-  id: string;
-  title: string;
-  text: string;
-  timestamp: Timestamp;
-  imageUrl?: string;
-  userId?: string | undefined;
-  authorPhotoURL?: string;
-  authorDisplayName?: string;
-}
 
 export default function FeedItemCard() {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -45,7 +35,6 @@ export default function FeedItemCard() {
   const { id } = useParams();
   const { isEditModalOpen } = useEditContext();
   const getFeedData = useGetFeedData();
-  // const navigate = useNavigate();
 
   useEffect(() => {
     (async () => {
@@ -185,7 +174,7 @@ export default function FeedItemCard() {
       {isModalOpen && (
         <Modal
           setDeleteModalOpen={setDeleteModalOpen}
-          feedId={id}
+          feedId={id || 'not found'}
           onClose={handleCloseModal}
         />
       )}
