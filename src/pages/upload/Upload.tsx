@@ -5,9 +5,9 @@ import { doc, setDoc } from 'firebase/firestore';
 import Preview from '@/components/fileUpload/Preview';
 import { v4 as uuidv4 } from 'uuid';
 
-import { Label } from '@/components/ui/label/Label';
-import { Input } from '@/components/ui/input/Input';
-import { Button } from '@/components/ui/button/Button';
+import { Label } from '@/components/commonUi/label/Label';
+import { Input } from '@/components/commonUi/input/Input';
+import { Button } from '@/components/commonUi/button/Button';
 
 import useAuthContext from '@/hook/useAuthContext';
 import uploadImageToStorage from '@/pages/upload/UploadImgToStorage';

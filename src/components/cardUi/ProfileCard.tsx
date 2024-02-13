@@ -6,8 +6,8 @@ import { appFireStore } from '@/firebase/config';
 
 import useAuthContext from '@/hook/useAuthContext';
 
-import { Button } from '@/components/ui/button/Button';
-
+import { Button } from '@/components/commonUi/button/Button';
+import FollowCard from '@/components/cardUi/FollowCard';
 import UserProfileImg from '@/assets/Img/Img-user.svg';
 
 export default function ProfileCard() {
@@ -76,7 +76,9 @@ export default function ProfileCard() {
           </div>
         </div>
         <ul>
-          <li>팔로워리스트</li>
+          <li>
+            <FollowCard />
+          </li>
         </ul>
       </section>
     </article>

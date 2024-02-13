@@ -1,13 +1,13 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import useSetProfileImage from '../../hook/useSetProfileImage';
-import useSignup from '../../hook/useSignup';
-import { Button } from '../../components/ui/button/Button';
-import { Input } from '../../components/ui/input/Input';
-import { Label } from '../../components/ui/label/Label';
+import useSetProfileImage from '@/hook/useSetProfileImage';
+import useSignup from '@/hook/useSignup';
+import { Button } from '@/components/commonUi/button/Button';
+import { Input } from '@/components/commonUi/input/Input';
+import { Label } from '@/components/commonUi/label/Label';
 
-import ProfileImg from '../assets/Img/Img-user.svg';
-import ProfileAddImg from '../assets/Icon/Icon-add-circle.svg';
+import ProfileImg from '@/assets/Img/Img-user.svg';
+import ProfileAddImg from '@/assets/Icon/Icon-add-circle.svg';
 import LoadingIcon from '@/assets/Icon/Icon-loading-black.svg';
 
 export default function SignUp() {

@@ -6,9 +6,9 @@ import useReauthenticate from '@/hook/useReauthenticate';
 import { useUpdateProfile } from '@/hook/useUpdateProfile';
 
 import ProfileCard from '@/components/cardUi/ProfileCard';
-import { Button } from '@/components/ui/button/Button';
-import { Input } from '@/components/ui/input/Input';
-import { Label } from '@/components/ui/label/Label';
+import { Button } from '@/components/commonUi/button/Button';
+import { Input } from '@/components/commonUi/input/Input';
+import { Label } from '@/components/commonUi/label/Label';
 
 import ProfileImg from '@/assets/Img/Img-user.svg';
 import ProfileAddImg from '@/assets/Icon/Icon-add-circle.svg';

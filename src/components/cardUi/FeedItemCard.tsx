@@ -16,9 +16,10 @@ import useAuthContext from '@/hook/useAuthContext';
 import useGetFeedData from '@/hook/useGetFeedDate';
 import useEditContext from '@/hook/useEditContext';
 
-import Overlay from '@/components/ui/overlay/Overlay';
+import Overlay from '@/components/commonUi/overlay/Overlay';
 import Modal from '@/components/modalUi/SelectModal';
 import DeleteFeedModal from '@/components/modalUi/DeleteFeedModal';
+import LikeButton from '@/components/userReactionUi/likeUi/Like';
 
 import Calendar from '@/assets/Icon/Icon-calendar.svg';
 import SeeMore from '@/assets/Icon/Icon-More.svg';
@@ -39,24 +40,12 @@ export default function FeedItemCard() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const [feeds, setFeeds] = useState<FeedItem[]>([]);
+  const [feedData, setFeedData] = useState<DocumentData | null>(null);
   const { user } = useAuthContext();
   const { id } = useParams();
-  const [feedData, setFeedData] = useState<DocumentData | null>(null);
-  const getFeedData = useGetFeedData();
   const { isEditModalOpen } = useEditContext();
-
-  const handleSeeMoreClick = () => {
-    setIsModalOpen(true);
-  };
-
-  const handleCloseModal = () => {
-    setIsModalOpen(false);
-  };
-
-  const handleDeleteCloseModal = () => {
-    setDeleteModalOpen(false);
-    setIsModalOpen(false);
-  };
+  const getFeedData = useGetFeedData();
+  // const navigate = useNavigate();
 
   useEffect(() => {
     (async () => {
@@ -64,20 +53,11 @@ export default function FeedItemCard() {
 
       if (feedData) {
         setFeedData(feedData);
+      } else {
+        // setInvalidId(true);
       }
     })();
   }, [isEditModalOpen]);
-
-  const getUserInfo = async (userId: string) => {
-    const userRef = doc(appFireStore, 'users', userId);
-    const userSnap = await getDoc(userRef);
-    if (userSnap.exists()) {
-      return userSnap.data();
-    } else {
-      console.log('유저 정보가 없습니다.');
-      return null;
-    }
-  };
 
   useEffect(() => {
     const fetchFeeds = async () => {
@@ -96,7 +76,6 @@ export default function FeedItemCard() {
               if (data.userId) {
                 userInfo = await getUserInfo(data.userId);
               }
-
               return {
                 id: doc.id,
                 title: data.title,
@@ -118,6 +97,30 @@ export default function FeedItemCard() {
 
     fetchFeeds();
   }, [user]);
+
+  const handleSeeMoreClick = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+  };
+
+  const handleDeleteCloseModal = () => {
+    setDeleteModalOpen(false);
+    setIsModalOpen(false);
+  };
+
+  const getUserInfo = async (userId: string) => {
+    const userRef = doc(appFireStore, 'users', userId);
+    const userSnap = await getDoc(userRef);
+    if (userSnap.exists()) {
+      return userSnap.data();
+    } else {
+      console.log('유저 정보가 없습니다.');
+      return null;
+    }
+  };
 
   // 날짜 포맷 함수
   const formatDate = (timestamp: Timestamp) => {
@@ -167,6 +170,9 @@ export default function FeedItemCard() {
                 <h3 className="text-xl">{feed.title}</h3>
                 <p className="">{feed.text}</p>
               </div>
+              <div className="absolute top-2 right-2">
+                <LikeButton feedId={feed.id} />
+              </div>
             </section>
             <div className="flex gap-1 text-gray-500 text-sm ">
               <img src={Calendar} alt="달력" className="text-gray-700" />
@@ -176,7 +182,7 @@ export default function FeedItemCard() {
         ))}
       </section>
 
-      {isModalOpen && id && (
+      {isModalOpen && (
         <Modal
           setDeleteModalOpen={setDeleteModalOpen}
           feedId={id}
@@ -186,7 +192,7 @@ export default function FeedItemCard() {
       {deleteModalOpen && (
         <DeleteFeedModal
           onClose={handleDeleteCloseModal}
-          imgUrlList={feedData?.imageUrl}
+          imgUrlList={feedData?.imageUrl || []}
         />
       )}
     </>
