@@ -1,10 +1,12 @@
 import { useEffect, useState } from 'react';
-import '@/components/ui/TopButton/TopButton.css';
+
+import '@/components/commonUi/topButton/TopButton.css';
 
 import ArrowTop from '@/assets/Icon/Icon-up.svg';
+
 export default function TopButton() {
   const [ScrollY, setScrollY] = useState(0);
-  const [BtnStatus, setBtnStatus] = useState(false); // 버튼 상태
+  const [BtnStatus, setBtnStatus] = useState(false);
 
   const handleFollow = () => {
     setScrollY(window.pageYOffset);
