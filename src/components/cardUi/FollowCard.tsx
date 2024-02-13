@@ -31,7 +31,7 @@ export default function FollowCard({
 
   useEffect(() => {
     const checkFollowingStatus = async () => {
-      if (!user) return;
+      if (!user || !userId) return;
 
       const targetUserRef = doc(db, 'users', userId);
       const docSnap = await getDoc(targetUserRef);
@@ -48,7 +48,7 @@ export default function FollowCard({
   }, [user, userId, db]);
 
   const handleFollow = async () => {
-    if (!user) return;
+    if (!user || !userId) return;
 
     const userRef = doc(db, 'users', user.uid);
     const targetUserRef = doc(db, 'users', userId);
