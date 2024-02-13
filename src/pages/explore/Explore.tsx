@@ -1,12 +1,14 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { collection, getDocs } from 'firebase/firestore';
 import { appFireStore } from '@/firebase/config';
+import FollowCard from '@/components/cardUi/FollowCard';
 
 interface User {
   id: string;
   displayName: string;
   photoURL?: string;
   introduce?: string;
+  uniqueId: string;
 }
 
 export default function Explore() {
@@ -18,8 +20,9 @@ export default function Explore() {
         const querySnapshot = await getDocs(collection(appFireStore, 'users'));
         const usersList: User[] = [];
         querySnapshot.forEach((doc) => {
-          // 각 문서의 데이터를 usersList 배열에 추가
-          usersList.push({ id: doc.id, ...(doc.data() as User) });
+          console.log(doc.id);
+
+          usersList.push({ ...(doc.data() as User), uniqueId: doc.id });
         });
         setUsers(usersList);
       } catch (err) {
@@ -31,13 +34,14 @@ export default function Explore() {
   }, []);
 
   return (
-    <div className="w-[100px]">
+    <div>
       {users.map((user) => (
-        <div key={user.id}>
-          {user.photoURL && <img src={user.photoURL} alt="Profile" />}
-          <h2>{user.displayName}</h2>
-          <p>{user.introduce}</p>
-        </div>
+        <FollowCard
+          key={user.uniqueId}
+          userId={user.uniqueId}
+          displayName={user.displayName}
+          photoURL={user.photoURL}
+        />
       ))}
     </div>
   );
