@@ -5,11 +5,14 @@ import './index.css';
 
 import { AuthContextProvider } from '@/context/AuthContext.tsx';
 import EditContextProvider from '@/context/EditContext.tsx';
+import PageContextProvider from '@/context/PageContext.tsx';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <AuthContextProvider>
     <EditContextProvider>
-      <App />
+      <PageContextProvider>
+        <App />
+      </PageContextProvider>
     </EditContextProvider>
   </AuthContextProvider>,
 );
