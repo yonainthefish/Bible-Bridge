@@ -1,14 +1,10 @@
-export interface Props {
-  email: string;
-  password: string;
-  displayName: string | null;
-  file: File | null;
-  introduce: string | null;
+interface UserFormData<T> {
+  email: T;
+  password: T;
+  displayName: T;
+  file: File | T;
+  introduce?: string | T;
 }
 
-export interface Profile {
-  email: string | null;
-  password: string | null;
-  displayName: string | null;
-  file: File | null;
-}
+export type SignUpProps = UserFormData<string | null>;
+export type Profile = UserFormData<null>;
