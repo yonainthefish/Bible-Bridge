@@ -4,7 +4,7 @@ import { FirebaseError } from 'firebase/app';
 import { doc, setDoc } from 'firebase/firestore';
 import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
 
-import { Props } from '@/hook/model';
+import { SignUpProps } from '@/hook/model';
 import useAuthContext from '@/hook/useAuthContext';
 import { uploadImg } from '@/utils/SDKUtils.ts';
 
@@ -19,15 +19,21 @@ export default function useSignup() {
     displayName,
     file,
     introduce,
-  }: Props) => {
+  }: SignUpProps) => {
     setError(null);
     setPending(true);
+
+    if (email === null || password === null) {
+      setError('Email and password must not be null');
+      setPending(false);
+      return;
+    }
 
     try {
       const { user } = await createUserWithEmailAndPassword(
         appAuth,
-        email,
-        password,
+        email as string,
+        password as string,
       );
 
       interface Opt {
@@ -46,7 +52,7 @@ export default function useSignup() {
         opt.introduce = introduce;
       }
       if (file !== null) {
-        opt.photoURL = await uploadImg(`profile/${user.uid}`, file);
+        opt.photoURL = await uploadImg(`profile/${user.uid}`, file as File);
       }
 
       await updateProfile(user, opt);
