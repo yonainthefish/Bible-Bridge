@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+
 import {
   doc,
   updateDoc,
@@ -11,7 +12,7 @@ import {
 import useAuthContext from '@/hook/useAuthContext';
 
 import { Button } from '@/components/commonUi/button/Button';
-import { FollowCardProps } from '@/components/cardUi/Model';
+import { FollowCardProps } from '@/components/cardUi/model';
 
 import BasicUserImg from '@/assets/Img/Img-user.svg';
 

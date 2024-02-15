@@ -1,7 +1,7 @@
 import React from 'react';
 
 import FollowCard from '@/components/cardUi/FollowCard';
-import { UserListProps } from '@/components/cardUi/Model';
+import { UserListProps } from '@/components/cardUi/model';
 
 const UserList: React.FC<UserListProps> = ({ userList, title }) => {
   return (

@@ -4,7 +4,7 @@ import { doc, getDoc, getFirestore } from 'firebase/firestore';
 import useAuthContext from '@/hook/useAuthContext';
 
 import UserList from '@/components/cardUi/UserList';
-import { User } from '@/components/cardUi/Model';
+import { User } from '@/components/cardUi/model';
 
 import UserImg from '@/assets/Img/Img-user.svg';
 
