@@ -21,7 +21,7 @@ function DateDisplay({ date }: DateProps) {
 
 const DateFormatter: React.FC<DateProps> = ({ date }) => {
   const formattedDate = DateDisplay({ date });
-  return <span>{formattedDate}</span>;
+  return <span className="text-gray-500 text-small">{formattedDate}</span>;
 };
 
 export default DateFormatter;
