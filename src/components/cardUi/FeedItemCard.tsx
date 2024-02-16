@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import {
-  Timestamp,
   collection,
   getDocs,
   getDoc,
@@ -12,19 +11,14 @@ import {
 } from 'firebase/firestore';
 import { appFireStore } from '@/firebase/config';
 
+import { FeedItem } from '@/components/cardUi/model';
+import FeedInfo from '@/components/cardUi/FeedInfo';
+import Modal from '@/components/modalUi/SelectModal';
+import DeleteFeedModal from '@/components/modalUi/DeleteFeedModal';
+
 import useAuthContext from '@/hook/useAuthContext';
 import useGetFeedData from '@/hook/useGetFeedDate';
 import useEditContext from '@/hook/useEditContext';
-
-import Overlay from '@/components/commonUi/overlay/Overlay';
-import Modal from '@/components/modalUi/SelectModal';
-import DeleteFeedModal from '@/components/modalUi/DeleteFeedModal';
-import LikeButton from '@/components/userReactionUi/likeUi/Like';
-import { FeedItem } from '@/components/cardUi/Model';
-
-import Calendar from '@/assets/Icon/Icon-calendar.svg';
-import SeeMore from '@/assets/Icon/Icon-More.svg';
-import BasicUserImg from '@/assets/Img/Img-user.svg';
 
 export default function FeedItemCard() {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -87,10 +81,6 @@ export default function FeedItemCard() {
     fetchFeeds();
   }, [user]);
 
-  const handleSeeMoreClick = () => {
-    setIsModalOpen(true);
-  };
-
   const handleCloseModal = () => {
     setIsModalOpen(false);
   };
@@ -112,62 +102,19 @@ export default function FeedItemCard() {
   };
 
   // 날짜 포맷 함수
-  const formatDate = (timestamp: Timestamp) => {
-    const date = timestamp.toDate();
-    const formattedDate = `${date.getFullYear()}-${
-      date.getMonth() + 1
-    }-${date.getDate()}`;
-    return formattedDate;
-  };
+  // const formatDate = (timestamp: Timestamp) => {
+  //   const date = timestamp.toDate();
+  //   const formattedDate = `${date.getFullYear()}-${
+  //     date.getMonth() + 1
+  //   }-${date.getDate()}`;
+  //   return formattedDate;
+  // };
 
   return (
     <>
       <section className="flex flex-wrap gap-5">
         {feeds.map((feed) => (
-          <div className="w-[240px] bg-white" key={feed.id}>
-            <div className="flex justify-between my-1 px-2">
-              <div className="flex items-center gap-2">
-                <img
-                  src={feed.authorPhotoURL || BasicUserImg}
-                  alt="User"
-                  className="h-9 w-9 rounded-full object-cover"
-                />
-                <p className="text-small">
-                  {feed.authorDisplayName || '알 수 없음'}
-                </p>
-              </div>
-              <button
-                className="more"
-                type="button"
-                onClick={handleSeeMoreClick}
-              >
-                <img src={SeeMore} alt="더보기" />
-              </button>
-            </div>
-            <section className="aspect-square border-2 rounded-lg overflow-hidden relative">
-              {feed.imageUrl && (
-                <>
-                  <img
-                    src={feed.imageUrl}
-                    alt="Feed"
-                    className="w-full h-full object-cover object-center "
-                  />
-                  <Overlay />
-                </>
-              )}
-              <div className="absolute-center text-gray-0 p-5">
-                <h3 className="text-xl">{feed.title}</h3>
-                <p className="">{feed.text}</p>
-              </div>
-              <div className="absolute top-2 right-2">
-                <LikeButton feedId={feed.id} />
-              </div>
-            </section>
-            <div className="flex gap-1 text-gray-500 text-sm ">
-              <img src={Calendar} alt="달력" className="text-gray-700" />
-              {formatDate(feed.timestamp)}
-            </div>
-          </div>
+          <FeedInfo key={feed.id} feed={feed} />
         ))}
       </section>
 

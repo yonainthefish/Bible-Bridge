@@ -23,7 +23,6 @@ const FeedInfo: React.FC<FeedItemProps> = ({ feed }) => {
   };
 
   const handleLinkClick = () => {
-    // 현재 경로 저장
     setPrevPath(window.location.pathname);
   };
 
