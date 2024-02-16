@@ -6,7 +6,7 @@ import { appFireStore } from '@/firebase/config';
 
 import useAuthContext from '@/hook/useAuthContext';
 
-import UserProfile from '@/components/cardUi/UserProfile';
+import UserProfile from '@/components/cardUi/FollowList';
 import { Button } from '@/components/commonUi/button/Button';
 
 import UserProfileImg from '@/assets/Img/Img-user.svg';
