@@ -9,12 +9,19 @@ import {
 import { appFireStore } from '@/firebase/config';
 
 import DateFormatter from '@/components/commonUi/date/DateFomatter';
+import CommentEdit from '@/components/userReactionUi/commentUi/CommentEdit';
 
+import seeMore from '@/assets/Icon/Icon-More.svg';
 interface CommentType {
   id: string;
   text: string;
   createdAt: Date;
   userId: string;
+  displayName: string;
+}
+
+interface ShowEditMenuState {
+  [key: string]: boolean;
 }
 
 interface CommentsListProps {
@@ -23,6 +30,14 @@ interface CommentsListProps {
 
 const CommentsList: React.FC<CommentsListProps> = ({ postId }) => {
   const [comments, setComments] = useState<CommentType[]>([]);
+  const [showEditMenu, setShowEditMenu] = useState<ShowEditMenuState>({});
+
+  const toggleEditMenu = (commentId: string) => {
+    setShowEditMenu((prevState) => ({
+      ...prevState,
+      [commentId]: !prevState[commentId],
+    }));
+  };
 
   useEffect(() => {
     const q = query(
@@ -42,7 +57,6 @@ const CommentsList: React.FC<CommentsListProps> = ({ postId }) => {
         ) {
           createdAt = commentData.createdAt.toDate();
         } else {
-          // 'createdAt'가 이미 Date 객체이거나 변환할 필요가 없는 경우
           createdAt = new Date(commentData.createdAt);
         }
 
@@ -61,13 +75,28 @@ const CommentsList: React.FC<CommentsListProps> = ({ postId }) => {
   console.log(comments);
 
   return (
-    <div className="border-2 border-gray-200">
+    <div className="w-[500px] p-2">
       {comments.map((comment) => (
-        <div key={comment.id}>
-          <p>{comment.userId}</p>
-          <p>{comment.text}</p>
+        <div key={comment.id} className="mb-2 ">
+          <div className="flex items-center justify-between relative">
+            <div className="flex items-center">
+              <p className="mr-2 text-small">{comment.displayName}</p>
+              <DateFormatter date={comment.createdAt} />
+            </div>
 
-          <DateFormatter date={comment.createdAt} />
+            <button onClick={() => toggleEditMenu(comment.id)}>
+              <img src={seeMore} alt="더보기" />
+            </button>
+
+            {showEditMenu[comment.id] && (
+              <CommentEdit
+                commentId={comment.id}
+                userId={comment.userId}
+                originalText={comment.text}
+              />
+            )}
+          </div>
+          <p className="text-left">{comment.text}</p>
         </div>
       ))}
     </div>
