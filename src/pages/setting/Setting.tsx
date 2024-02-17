@@ -5,7 +5,8 @@ import useSetProfileImage from '@/hook/useSetProfileImage';
 import useReauthenticate from '@/hook/useReauthenticate';
 import { useUpdateProfile } from '@/hook/useUpdateProfile';
 
-import ProfileCard from '@/components/cardUi/ProfileCard';
+import { ProfileProps } from '@/hook/model';
+import ProfileCard from '@/components/profileUi/ProfileCard';
 import { Button } from '@/components/commonUi/button/Button';
 import { Input } from '@/components/commonUi/input/Input';
 import { Label } from '@/components/commonUi/label/Label';
@@ -14,12 +15,6 @@ import ProfileImg from '@/assets/Img/Img-user.svg';
 import ProfileAddImg from '@/assets/Icon/Icon-add-circle.svg';
 import LoadingIcon from '@/assets/Icon/Icon-loading-black.svg';
 
-interface Profile {
-  file: File | null;
-  displayName: string | null;
-  email: string | null;
-  password: string | null;
-}
 export default function Setting() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -33,15 +28,10 @@ export default function Setting() {
   const [passwordValid, setPasswordValid] = useState(false);
   const [matchPassword, setMatchPassword] = useState(false);
   const [changed, setChanged] = useState(false);
-  // const [introduce, setIntroduce] = useState<null | string>(null);
-
-  // const [displayNameErrMessage, setDisplayNameErrMessage] = useState('');
-  // const [displayNameValid, setDisplayNameValid] = useState(false);
   const [updateProfileIsPending, setUpdateProfileIsPending] = useState(false);
   const { user } = useAuthContext();
   const { setProfile, error: updateProfileError } = useUpdateProfile();
   const { reauthenticate, error: reauthenticateError } = useReauthenticate();
-
   const { file, setSrc, src, setProfileImage } = useSetProfileImage();
 
   useEffect(() => {
@@ -162,15 +152,12 @@ export default function Setting() {
       }
     }
 
-    const profile: Profile = { file, displayName: null, email: null, password };
-
-    if (displayName !== user?.displayName) {
-      profile.displayName = displayName;
-    }
-
-    if (email !== user?.email) {
-      profile.email = email;
-    }
+    const profile: ProfileProps = {
+      file,
+      displayName: displayName !== user?.displayName ? displayName : null,
+      email: email !== user?.email ? email : null,
+      password: password ? password : null,
+    };
 
     await setProfile(profile);
     setUpdateProfileIsPending(false);
@@ -330,30 +317,11 @@ export default function Setting() {
                 type="text"
                 id="displayName-input"
                 placeholder="닉네임 (2자 ~ 15자 내외)"
-                value={displayName}
+                value={displayName || ''}
                 onChange={(e) => setDisplayName(e.target.value)}
                 required
               />
-              <div style={{ position: 'relative' }}>
-                {/* <strong
-                  role="alert"
-                  className={`text-error text-smaller   ${
-                    displayNameErrMessage ? 'visible' : 'invisible'
-                  }`}
-                  style={{ position: 'absolute', left: '10px', top: '-17px' }}
-                >
-                  {displayNameErrMessage && `*${displayNameErrMessage}`}
-                </strong> */}
-              </div>
-              {/* <Label htmlFor="introduce-input" className="sr-only">
-                소개 성경 구절
-              </Label>
-              <Input
-                type="text"
-                id="introduce-input"
-                placeholder="나의 힘이 되는 성경 구절을 적어 주세요"
-                onChange={handleInp}
-              /> */}
+              <div style={{ position: 'relative' }}></div>
 
               <Button
                 className={`${
