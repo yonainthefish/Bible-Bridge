@@ -13,6 +13,8 @@ import MyPage from '@/pages/myPage/MyPage';
 import Setting from '@/pages/setting/Setting';
 import Upload from '@/pages/upload/Upload';
 import Explore from '@/pages/explore/Explore';
+import FeedDetail from '@/pages/feedDetail/FeedDetail';
+
 export default function Router() {
   const { isAuthReady } = useAuthContext();
 
@@ -37,6 +39,7 @@ export default function Router() {
                   <Route path="/upload" element={<Upload />} />
                   <Route path="/setting" element={<Setting />} />
                   <Route path="/explore" element={<Explore />} />
+                  <Route path="/feed/:id" element={<FeedDetail />} />
                 </Route>
               </Route>
             </>
