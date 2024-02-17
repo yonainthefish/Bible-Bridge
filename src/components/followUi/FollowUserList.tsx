@@ -1,13 +1,11 @@
 import React from 'react';
 
-import FollowCard from '@/components/cardUi/FollowCard';
-import { UserListProps } from '@/components/cardUi/model';
+import { ListProps, User } from '@/components/followUi/model';
+import FollowCard from '@/components/followUi/FollowCard';
 
-const UserList: React.FC<UserListProps> = ({ userList, title }) => {
+const FollowUserList: React.FC<ListProps<User>> = ({ userList }) => {
   return (
     <>
-      <h2>{title}</h2>
-      {userList.length}
       {userList.map(({ userId, displayName, photoURL }) => (
         <FollowCard
           key={userId}
@@ -20,4 +18,4 @@ const UserList: React.FC<UserListProps> = ({ userList, title }) => {
   );
 };
 
-export default UserList;
+export default FollowUserList;

@@ -3,12 +3,12 @@ import { doc, getDoc, getFirestore } from 'firebase/firestore';
 
 import useAuthContext from '@/hook/useAuthContext';
 
-import UserList from '@/components/cardUi/UserList';
-import { User } from '@/components/cardUi/model';
+import { User } from '@/components/followUi/model';
+import UserList from '@/components/followUi/FollowUserList';
 
 import UserImg from '@/assets/Img/Img-user.svg';
 
-export default function UserProfile({ userId }: User) {
+export default function FollowList({ userId }: User) {
   const { user } = useAuthContext();
   const [followingList, setFollowingList] = useState<User[]>([]);
   const [followerList, setFollowerList] = useState<User[]>([]);
@@ -54,8 +54,8 @@ export default function UserProfile({ userId }: User) {
     <div>
       {user?.uid === userId && (
         <>
-          <UserList userList={followingList} title="팔로잉" />
-          <UserList userList={followerList} title="팔로워" />
+          <UserList userList={followingList} />
+          <UserList userList={followerList} />
         </>
       )}
     </div>

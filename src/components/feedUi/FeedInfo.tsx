@@ -3,7 +3,8 @@ import { Link } from 'react-router-dom';
 import { Timestamp } from 'firebase/firestore';
 
 import usePageContext from '@/hook/usePageContext';
-import { FeedItem as FeedItemType } from '@/components/cardUi/model';
+
+import { FeedAndUserInfo } from '@/components/feedUi/model';
 import Overlay from '@/components/commonUi/overlay/Overlay';
 import Liked from '@/components/userReactionUi/likeUi/Liked';
 
@@ -11,7 +12,7 @@ import BasicUserImg from '@/assets/Img/Img-user.svg';
 import Calendar from '@/assets/Icon/Icon-calendar.svg';
 
 interface FeedItemProps {
-  feed: FeedItemType;
+  feed: FeedAndUserInfo;
 }
 
 const FeedInfo: React.FC<FeedItemProps> = ({ feed }) => {

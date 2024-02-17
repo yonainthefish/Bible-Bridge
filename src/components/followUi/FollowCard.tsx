@@ -11,8 +11,8 @@ import {
 
 import useAuthContext from '@/hook/useAuthContext';
 
+import { FollowCardProps } from '@/components/followUi/model';
 import { Button } from '@/components/commonUi/button/Button';
-import { FollowCardProps } from '@/components/cardUi/model';
 
 import BasicUserImg from '@/assets/Img/Img-user.svg';
 
@@ -71,14 +71,14 @@ export default function FollowCard({
   };
 
   return (
-    <div className="flex items-center justify-between border-2 my-1">
+    <div className="flex items-center justify-between my-2 border-2">
       <div className="flex items-center">
         <img
           src={photoURL || BasicUserImg}
           alt="User"
           className="h-9 w-9 rounded-full object-cover"
         />
-        <p>{displayName || '알 수 없음'}</p>
+        <p>{displayName || '알 수 없음!'}</p>
       </div>
       {user?.uid !== userId && (
         <Button onClick={handleFollow}>

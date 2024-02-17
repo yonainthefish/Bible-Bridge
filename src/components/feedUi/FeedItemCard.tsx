@@ -11,8 +11,8 @@ import {
 } from 'firebase/firestore';
 import { appFireStore } from '@/firebase/config';
 
-import { FeedItem } from '@/components/cardUi/model';
-import FeedInfo from '@/components/cardUi/FeedInfo';
+import { FeedAndUserInfo } from '@/components/feedUi/model';
+import FeedInfo from '@/components/feedUi/FeedInfo';
 import Modal from '@/components/modalUi/SelectModal';
 import DeleteFeedModal from '@/components/modalUi/DeleteFeedModal';
 
@@ -23,7 +23,7 @@ import useEditContext from '@/hook/useEditContext';
 export default function FeedItemCard() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
-  const [feeds, setFeeds] = useState<FeedItem[]>([]);
+  const [feeds, setFeeds] = useState<FeedAndUserInfo[]>([]);
   const [feedData, setFeedData] = useState<DocumentData | null>(null);
   const { user } = useAuthContext();
   const { id } = useParams();
@@ -51,27 +51,23 @@ export default function FeedItemCard() {
             orderBy('timestamp', 'desc'),
           );
           const querySnapshot = await getDocs(q);
-          const feedList = await Promise.all(
+          const FeedAndUserInfo = await Promise.all(
             querySnapshot.docs.map(async (doc) => {
-              const data = doc.data() as FeedItem;
-              let userInfo = null;
-
-              if (data.userId) {
-                userInfo = await getUserInfo(data.userId);
-              }
+              const data = doc.data() as FeedAndUserInfo;
+              const userInfo = await getUserInfo(data.userId);
               return {
                 id: doc.id,
                 title: data.title,
                 text: data.text,
                 timestamp: data.timestamp,
                 imageUrl: data.imageUrl,
+                userId: data.userId,
                 authorPhotoURL: userInfo?.photoURL,
                 authorDisplayName: userInfo?.displayName,
-                userId: data.userId,
               };
             }),
           );
-          setFeeds(feedList);
+          setFeeds(FeedAndUserInfo);
         } catch (err) {
           console.error('Error fetching feeds: ', err);
         }

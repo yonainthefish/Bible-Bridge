@@ -3,10 +3,10 @@ import { useParams } from 'react-router-dom';
 import { appFireStore } from '@/firebase/config';
 import { doc, getDoc } from 'firebase/firestore';
 
-import { FeedItem as FeedItemType } from '@/components/cardUi/model';
+import { FeedItem as FeedItemType } from '@/components/followUi/model';
 import Comment from '@/components/userReactionUi/commentUi/Comment';
 import CommentsList from '@/components/userReactionUi/commentUi/CommentList';
-import FeedInfo from '@/components/cardUi/FeedInfo';
+import FeedInfo from '@/components/feedUi/FeedInfo';
 
 export default function FeedDetail() {
   const { id } = useParams<{ id: string }>();

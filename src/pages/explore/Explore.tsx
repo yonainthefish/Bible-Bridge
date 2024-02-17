@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { collection, getDocs } from 'firebase/firestore';
 import { appFireStore } from '@/firebase/config';
-import FollowCard from '@/components/cardUi/FollowCard';
+import FollowCard from '@/components/followUi/FollowCard';
 
 interface User {
   id: string;

@@ -6,10 +6,10 @@ import { appFireStore } from '@/firebase/config';
 
 import useAuthContext from '@/hook/useAuthContext';
 
-import UserProfile from '@/components/cardUi/FollowList';
+import FollowList from '@/components/followUi/FollowList';
 import { Button } from '@/components/commonUi/button/Button';
-
-import UserProfileImg from '@/assets/Img/Img-user.svg';
+import FollowCountList from '@/components/followUi/FollowCountList';
+import ProfileUserInfo from '@/components/profileUi/ProfileUserInfo';
 
 export default function ProfileCard() {
   const { user } = useAuthContext();
@@ -43,32 +43,31 @@ export default function ProfileCard() {
 
   return (
     <article className="w-[380px] h-[800px] px-[35px] py-[40px] rounded-md bg-gray-0 border-2 border-gray-200">
-      <section className="">
-        <img
-          src={user.photoURL || UserProfileImg}
-          alt="프로필 사진"
-          className="w-[200px] mx-auto mb-6 rounded-full aspect-square object-cover"
+      <ProfileUserInfo />
+
+      <Link to="/setting">
+        <Button className="w-full" onClick={handleEditProfile}>
+          프로필 편집
+        </Button>
+      </Link>
+
+      <section className="flex items-center justify-around border-2 my-7">
+        <FollowCountList
+          userList={userDetails.followingList || []}
+          title="Follower"
         />
-        <div className="text-gray-700 text-nameSize font-bold">
-          {user.displayName == null
-            ? '사용자 이름을 찾을 수 없음'
-            : user.displayName}
-        </div>
-        <div className="text-gray-600">{user.email}</div>
-        <div className="max-h-20 my-4 line-clamp-3">
-          <div>{userDetails.introduce || '소개글이 설정되지 않았습니다.'}</div>
-        </div>
-        <Link to="/setting">
-          <Button className="w-full" onClick={handleEditProfile}>
-            프로필 편집
-          </Button>
-        </Link>
+        <FollowCountList
+          userList={userDetails.followerList || []}
+          title="Following"
+        />
       </section>
-      <section className="mt-12">
-        {user && (
-          <UserProfile userId={user.uid} displayName={user.displayName || "Unknown User"} />
-        )}
-      </section>
+
+      {user && (
+        <FollowList
+          userId={user.uid}
+          displayName={user.displayName || 'Unknown User'}
+        />
+      )}
     </article>
   );
 }

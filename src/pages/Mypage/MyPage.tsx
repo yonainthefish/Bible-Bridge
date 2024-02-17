@@ -1,5 +1,5 @@
-import ProfileCard from '@/components/cardUi/ProfileCard';
-import FeedItemCard from '@/components/cardUi/FeedItemCard';
+import ProfileCard from '@/components/profileUi/ProfileCard';
+import FeedItemCard from '@/components/feedUi/FeedItemCard';
 import '@/pages/myPage/myPage.css';
 
 export default function myPage() {
