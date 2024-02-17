@@ -2,8 +2,8 @@ import { useState } from 'react';
 import { updateProfile, updateEmail, updatePassword } from 'firebase/auth';
 import { FirebaseError } from 'firebase/app';
 
+import { ProfileProps } from '@/hook/model';
 import useAuthContext from '@/hook/useAuthContext';
-import { Profile } from '@/hook/model';
 import { uploadImg } from '@/utils/SDKUtils';
 
 export const useUpdateProfile = () => {
@@ -16,7 +16,7 @@ export const useUpdateProfile = () => {
     password,
     displayName,
     file,
-  }: Profile) => {
+  }: ProfileProps) => {
     setError(null);
 
     if (user === null) {
