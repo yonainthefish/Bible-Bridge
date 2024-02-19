@@ -1,7 +1,7 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { AuthRoute, NonAuthRoute } from '@/routes/AuthRoute';
 import useAuthContext from '@/hook/useAuthContext';
-import NavCommonRoute from '@/routes/LayoutRoute';
+import LayoutRoute from '@/routes/LayoutRoute';
 
 import Splash from '@/pages/splash/Splash';
 import StaticSplash from '@/pages/splash/StaticSplash';
@@ -33,7 +33,7 @@ export default function Router() {
               </Route>
 
               <Route element={<AuthRoute />}>
-                <Route element={<NavCommonRoute />}>
+                <Route element={<LayoutRoute />}>
                   <Route path="/home" element={<Home />} />
                   <Route path="/mypage" element={<MyPage />} />
                   <Route path="/upload" element={<Upload />} />
