@@ -46,19 +46,21 @@ const Preview = ({
 
   return (
     <>
-      <label htmlFor="file">
-        <div className="btnUpload">
-          <img src={ImgUpload} alt="사진 업로드 버튼" />
-        </div>
+      <label htmlFor="file" className="relative">
+        <img
+          src={ImgUpload}
+          alt="사진 업로드 버튼"
+          className="text-red bg-gray-1 rounded-full p-1"
+        />
       </label>
       <input
         accept="image/*"
         type="file"
         id="file"
         onChange={(e) => handleImageUpload(e)}
+        className="sr-only"
       />
 
-      {/* 업로드된 이미지 미리보기 */}
       {imageUrl && <img src={imageUrl} alt="업로드된 이미지 미리보기" />}
     </>
   );
