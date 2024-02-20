@@ -17,7 +17,7 @@ export interface FeedItem extends User {
 }
 
 export interface ListProps<T> {
-  title: string;
+  title?: string;
   userList: T[];
 }
 
