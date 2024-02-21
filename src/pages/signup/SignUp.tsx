@@ -1,7 +1,9 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+
 import useSetProfileImage from '@/hook/useSetProfileImage';
 import useSignup from '@/hook/useSignup';
+
 import { Button } from '@/components/commonUi/button/Button';
 import { Input } from '@/components/commonUi/input/Input';
 import { Label } from '@/components/commonUi/label/Label';
@@ -146,7 +148,7 @@ export default function SignUp() {
 
   return (
     <div
-      className="w-screen h-screen  flex items-center justify-center "
+      className="w-screen h-screen  flex items-center justify-center nonAuthRoot"
       style={gradientStyle}
     >
       <section className="shadow-slate200 w-[600px] max-h-[630px] px-[130px] py-[30px] bg-gray-1 transform translate-x-1/2-translate-y-1/2 rounded-lg flex flex-col items-center ">
