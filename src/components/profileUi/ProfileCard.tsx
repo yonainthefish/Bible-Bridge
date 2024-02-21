@@ -52,22 +52,27 @@ export default function ProfileCard() {
       </Link>
 
       <section className="flex items-center justify-around border-2 my-7">
-        <FollowCountList
-          userList={userDetails.followingList || []}
-          title="Follower"
-        />
-        <FollowCountList
-          userList={userDetails.followerList || []}
-          title="Following"
-        />
+        <button>
+          <FollowCountList
+            userList={userDetails.followingList || []}
+            title="Follower"
+          />
+        </button>
+        <button>
+          <FollowCountList
+            userList={userDetails.followerList || []}
+            title="Following"
+          />
+        </button>
       </section>
-
-      {user && (
-        <FollowList
-          userId={user.uid}
-          displayName={user.displayName || 'Unknown User'}
-        />
-      )}
+      <section className="h-[250px] max-h-[250px] overflow-auto">
+        {user && (
+          <FollowList
+            userId={user.uid}
+            displayName={user.displayName || 'Unknown User'}
+          />
+        )}
+      </section>
     </article>
   );
 }
