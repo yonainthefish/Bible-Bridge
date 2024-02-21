@@ -71,7 +71,7 @@ export default function FollowCard({
   };
 
   return (
-    <div className="flex items-center justify-between my-2 border-2">
+    <div className="flex items-center justify-between my-2">
       <div className="flex items-center">
         <img
           src={photoURL || BasicUserImg}
