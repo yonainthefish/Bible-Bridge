@@ -133,7 +133,7 @@ export default function LogIn() {
               className={`text-error text-smaller   ${
                 emailErrMessage ? 'visible' : 'invisible'
               }`}
-              style={{ position: 'absolute', left: '10px', top: '-17px' }}
+              style={{ position: 'absolute', left: '10px', top: '-18px' }}
             >
               {emailErrMessage && `*${emailErrMessage}`}
             </strong>
@@ -171,7 +171,11 @@ export default function LogIn() {
                 : ''
             }`}
           >
-            {isPending ? <img src={LoadingIcon} alt="로그인 중" /> : '로그인'}
+            {isPending ? (
+              <img src={LoadingIcon} alt="로그인 중" className="w-10 h-10" />
+            ) : (
+              '로그인'
+            )}
           </Button>
         </form>
         <div className="w-full mt-10 relative">
