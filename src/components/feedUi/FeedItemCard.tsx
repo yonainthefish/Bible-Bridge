@@ -97,18 +97,9 @@ export default function FeedItemCard() {
     }
   };
 
-  // 날짜 포맷 함수
-  // const formatDate = (timestamp: Timestamp) => {
-  //   const date = timestamp.toDate();
-  //   const formattedDate = `${date.getFullYear()}-${
-  //     date.getMonth() + 1
-  //   }-${date.getDate()}`;
-  //   return formattedDate;
-  // };
-
   return (
     <>
-      <section className="flex flex-wrap gap-5">
+      <section className="flex flex-wrap items-center justify-center gap-5">
         {feeds.map((feed) => (
           <FeedInfo key={feed.id} feed={feed} />
         ))}
