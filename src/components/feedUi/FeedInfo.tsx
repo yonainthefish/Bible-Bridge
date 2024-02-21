@@ -1,10 +1,10 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Timestamp } from 'firebase/firestore';
 
 import usePageContext from '@/hook/usePageContext';
 
 import { FeedAndUserInfo } from '@/components/feedUi/model';
+import DateFormatter from '@/components/commonUi/date/DateFomatter';
 import Overlay from '@/components/commonUi/overlay/Overlay';
 import Liked from '@/components/userReactionUi/likeUi/Liked';
 
@@ -18,18 +18,13 @@ interface FeedItemProps {
 const FeedInfo: React.FC<FeedItemProps> = ({ feed }) => {
   const { setPrevPath } = usePageContext();
 
-  const formatDate = (timestamp: Timestamp) => {
-    const date = timestamp.toDate();
-    return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
-  };
-
   const handleLinkClick = () => {
     setPrevPath(window.location.pathname);
   };
-
+  console.log(feed);
   return (
     <Link to={`/feed/${feed.id}`} onClick={handleLinkClick}>
-      <div className="w-[240px] bg-white ">
+      <div className="w-[100%] bg-white ">
         <div className="flex justify-between my-1 px-2">
           <div className="flex items-center gap-2">
             <img
@@ -65,7 +60,8 @@ const FeedInfo: React.FC<FeedItemProps> = ({ feed }) => {
 
         <div className="flex gap-1 text-gray-500 text-sm">
           <img src={Calendar} alt="달력" className="text-gray-700" />
-          {formatDate(feed.timestamp)}
+          {/* {formatDate(feed.timestamp)} */}
+          <DateFormatter date={feed.timestamp.toDate()} />
         </div>
       </div>
     </Link>

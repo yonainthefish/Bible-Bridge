@@ -7,6 +7,7 @@ import {
   getDoc,
 } from 'firebase/firestore';
 import { db } from '@/firebase/config';
+
 import useAuthContext from '@/hook/useAuthContext';
 
 import LikedIcon from '@/assets/Icon/Icon-heart-active.svg';
@@ -36,7 +37,9 @@ export default function Liked({ feedId }: LikeButtonProps) {
     fetchLikes();
   }, [feedId, user]);
 
-  const handleLike = async () => {
+  const handleLikeClick = async (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    
     if (!user) {
       alert('로그인이 필요합니다.');
       return;
@@ -60,7 +63,7 @@ export default function Liked({ feedId }: LikeButtonProps) {
 
   return (
     <button
-      onClick={handleLike}
+      onClick={handleLikeClick}
       className="flex items-center gap-1 text-gray-1"
     >
       {likeCount}
