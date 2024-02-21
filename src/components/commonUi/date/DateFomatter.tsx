@@ -16,7 +16,7 @@ function DateDisplay({ date }: DateProps) {
   if (diff < 60 * 60 * 24 * 3) {
     return formatDistanceToNow(d, { addSuffix: true, locale: ko });
   }
-  return format(d, 'PPP EEE p', { locale: ko });
+  return format(d, 'yyyy년 M월 d일', { locale: ko });
 }
 
 const DateFormatter: React.FC<DateProps> = ({ date }) => {
