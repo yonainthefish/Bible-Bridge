@@ -7,7 +7,7 @@ import {
   onSnapshot,
 } from 'firebase/firestore';
 import { appFireStore } from '@/firebase/config';
-
+import UserImgAndName from '@/components/profileUi/UserImgAndName';
 import DateFormatter from '@/components/commonUi/date/DateFomatter';
 import CommentEdit from '@/components/userReactionUi/commentUi/CommentEdit';
 
@@ -18,6 +18,7 @@ interface CommentType {
   createdAt: Date;
   userId: string;
   displayName: string;
+  authorPhotoURL?: string;
 }
 
 interface ShowEditMenuState {
@@ -43,28 +44,16 @@ const CommentsList: React.FC<CommentsListProps> = ({ postId }) => {
     const q = query(
       collection(appFireStore, 'comments'),
       where('postId', '==', postId),
-      orderBy('createdAt', 'desc'),
+      orderBy('createdAt'),
     );
 
     const unsubscribe = onSnapshot(q, (snapshot) => {
-      const commentsData: CommentType[] = [];
-      snapshot.forEach((doc) => {
+      const commentsData = snapshot.docs.map((doc) => {
         const commentData = doc.data() as CommentType;
-        let createdAt: Date;
-        if (
-          'toDate' in commentData.createdAt &&
-          typeof commentData.createdAt.toDate === 'function'
-        ) {
-          createdAt = commentData.createdAt.toDate();
-        } else {
-          createdAt = new Date(commentData.createdAt);
-        }
-
-        commentsData.push({
-          ...commentData,
-          id: doc.id,
-          createdAt,
-        });
+        const createdAt = commentData.createdAt
+          ? commentData.createdAt
+          : new Date();
+        return { ...commentData, id: doc.id, createdAt };
       });
       setComments(commentsData);
     });
@@ -75,13 +64,16 @@ const CommentsList: React.FC<CommentsListProps> = ({ postId }) => {
   console.log(comments);
 
   return (
-    <div className="w-[500px] p-2">
+    <section className="w-full border">
       {comments.map((comment) => (
-        <div key={comment.id} className="mb-2 ">
-          <div className="flex items-center justify-between relative">
+        <section key={comment.id} className="mb-2 border">
+          <div className="flex justify-between relative">
             <div className="flex items-center">
-              <p className="mr-2 text-small">{comment.displayName}</p>
-              <DateFormatter date={comment.createdAt} />
+              <UserImgAndName
+                authorPhotoURL={comment.authorPhotoURL}
+                authorDisplayName={comment.displayName}
+              />
+              <p className="text-left ml-2">{comment.text}</p>
             </div>
 
             <button onClick={() => toggleEditMenu(comment.id)}>
@@ -96,10 +88,10 @@ const CommentsList: React.FC<CommentsListProps> = ({ postId }) => {
               />
             )}
           </div>
-          <p className="text-left">{comment.text}</p>
-        </div>
+          <DateFormatter date={comment.createdAt} />
+        </section>
       ))}
-    </div>
+    </section>
   );
 };
 
