@@ -15,9 +15,10 @@ import unLikedIcon from '@/assets/Icon/Icon-heart.svg';
 
 interface LikeButtonProps {
   feedId: string;
+  color?: 'white' | 'black';
 }
 
-export default function Liked({ feedId }: LikeButtonProps) {
+export default function Liked({ feedId, color = 'black' }: LikeButtonProps) {
   const { user } = useAuthContext();
   const [likeCount, setLikeCount] = useState(0);
   const [isLiked, setIsLiked] = useState(false);
@@ -39,7 +40,7 @@ export default function Liked({ feedId }: LikeButtonProps) {
 
   const handleLikeClick = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    
+
     if (!user) {
       alert('로그인이 필요합니다.');
       return;
@@ -64,7 +65,9 @@ export default function Liked({ feedId }: LikeButtonProps) {
   return (
     <button
       onClick={handleLikeClick}
-      className="flex items-center gap-1 text-gray-1"
+      className={`flex items-center gap-1 ${
+        color === 'black' ? 'text-black' : 'text-white'
+      }`}
     >
       {likeCount}
       <img
