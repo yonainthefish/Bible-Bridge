@@ -45,6 +45,8 @@ export default function Upload() {
           timestamp: Timestamp.now(),
           imageUrl: downloadURLs,
           userId: user.uid,
+          authorDisplayName: user.displayName,
+          authorPhotoURL: user.photoURL,
         };
         await setDoc(userDocRef, uploadData);
         navigate(`/feed/${id}`);
