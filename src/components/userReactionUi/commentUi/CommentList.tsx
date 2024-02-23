@@ -21,24 +21,15 @@ interface CommentType {
   authorPhotoURL?: string;
 }
 
-interface ShowEditMenuState {
-  [key: string]: boolean;
-}
-
 interface CommentsListProps {
   postId: string;
 }
 
 const CommentsList: React.FC<CommentsListProps> = ({ postId }) => {
   const [comments, setComments] = useState<CommentType[]>([]);
-  const [showEditMenu, setShowEditMenu] = useState<ShowEditMenuState>({});
-
-  const toggleEditMenu = (commentId: string) => {
-    setShowEditMenu((prevState) => ({
-      ...prevState,
-      [commentId]: !prevState[commentId],
-    }));
-  };
+  const [activeCommentEdit, setActiveCommentEdit] = useState<string | null>(
+    null,
+  );
 
   useEffect(() => {
     const q = query(
@@ -61,34 +52,48 @@ const CommentsList: React.FC<CommentsListProps> = ({ postId }) => {
     return () => unsubscribe();
   }, [postId]);
 
-  console.log(comments);
+  const handleCloseModal = () => {
+    setActiveCommentEdit(null);
+  };
 
   return (
-    <section className="w-full border">
+    <section className="w-full">
       {comments.map((comment) => (
-        <section key={comment.id} className="mb-2 border">
-          <div className="flex justify-between relative">
-            <div className="flex items-center">
-              <UserImgAndName
-                authorPhotoURL={comment.authorPhotoURL}
-                authorDisplayName={comment.displayName}
-              />
-              <p className="text-left ml-2">{comment.text}</p>
+        <section key={comment.id} className="mb-3 w-full">
+          <div className="flex justify-between relative items-start">
+            <div className="flex items-start flex-shrink-0">
+              <p
+                className="text-left ml-2 flex-grow"
+                style={{ maxWidth: '360px', wordWrap: 'break-word' }}
+              >
+                <UserImgAndName
+                  authorPhotoURL={comment.authorPhotoURL}
+                  authorDisplayName={comment.displayName}
+                />
+
+                {comment.text}
+                <div className="mt-[-6px]">
+                  <DateFormatter date={comment.createdAt} />
+                </div>
+              </p>
             </div>
 
-            <button onClick={() => toggleEditMenu(comment.id)}>
+            <button
+              onClick={() => setActiveCommentEdit(comment.id)}
+              className="flex-shrink-0"
+            >
               <img src={seeMore} alt="더보기" />
             </button>
-
-            {showEditMenu[comment.id] && (
-              <CommentEdit
-                commentId={comment.id}
-                userId={comment.userId}
-                originalText={comment.text}
-              />
-            )}
           </div>
-          <DateFormatter date={comment.createdAt} />
+
+          {activeCommentEdit === comment.id && (
+            <CommentEdit
+              commentId={comment.id}
+              userId={comment.userId}
+              originalText={comment.text}
+              onClose={handleCloseModal}
+            />
+          )}
         </section>
       ))}
     </section>

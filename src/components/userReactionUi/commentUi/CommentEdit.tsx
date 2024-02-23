@@ -1,24 +1,23 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 
 import useAuthContext from '@/hook/useAuthContext';
 import useDeleteComment from '@/hook/useDeleteComment';
 import useUpdateComment from '@/hook/useUpdateComment';
 
-import DeleteIcon from '@/assets/Icon/Icon-delete.svg';
-import EditIcon from '@/assets/Icon/Icon-edit.svg';
-
 interface CommentEditProps {
   commentId: string;
   userId: string;
   originalText: string;
+  onClose: () => void;
 }
 
 const CommentEdit: React.FC<CommentEditProps> = ({
   commentId,
   userId,
   originalText,
+  onClose,
 }) => {
-  const modalRef = useRef<HTMLDivElement>(null);
+  const dialogRef = useRef<HTMLDialogElement>();
   const { user } = useAuthContext();
   const deleteComment = useDeleteComment();
   const updateComment = useUpdateComment();
@@ -28,62 +27,61 @@ const CommentEdit: React.FC<CommentEditProps> = ({
   const saveEdit = async () => {
     await updateComment(commentId, editedText);
     setIsEditing(false);
+    onClose();
   };
 
   useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (
-        modalRef.current &&
-        !modalRef.current.contains(event.target as Node)
-      ) {
-        console.log('모달 바깥 클릭 감지');
-        setIsEditing(false);
-      }
-    };
-
-    document.addEventListener('mousedown', handleClickOutside);
-
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
-  }, []);
+    if (dialogRef.current && isEditing) {
+      dialogRef.current.showModal();
+    }
+  }, [isEditing]);
 
   return (
-    <div ref={modalRef} className="absolute top-0 right-0 bg-gray-50">
-      {user?.uid === userId && (
-        <>
-          {isEditing ? (
-            <>
-              <textarea
-                value={editedText}
-                onChange={(e) => setEditedText(e.target.value)}
-                className="text-small"
-              />
-              <button onClick={saveEdit} className="text-small">
-                저장하기
-              </button>
-            </>
-          ) : (
-            <div className="flex flex-col border-2 border-gray-200 bg-gray-1 rounded-md overflow-hidden">
-              <button
-                onClick={toggleEdit}
-                className="flex items-center justify-center p-1 text-small  cursor-pointer "
-              >
-                <img src={EditIcon} alt="수정하기" className="mr-1" />
-                수정하기
-              </button>
-              <button
-                onClick={() => deleteComment(commentId)}
-                className="flex items-center justify-center p-1 text-small  cursor-pointer "
-              >
-                <img src={DeleteIcon} alt="삭제하기" className="mr-1" />
-                삭제하기
-              </button>
-            </div>
-          )}
-        </>
-      )}
-    </div>
+    <>
+      <dialog
+        ref={(node) => {
+          if (node && !dialogRef.current) {
+            dialogRef.current = node;
+            node.showModal();
+          }
+        }}
+        aria-labelledby="dialog-label"
+        className="w-[20%] rounded-sm bg-gray-50 overflow-hidden text-center cursor-pointer text-sm"
+      >
+        {user?.uid === userId && (
+          <>
+            {isEditing ? (
+              <>
+                <textarea
+                  value={editedText}
+                  onChange={(e) => setEditedText(e.target.value)}
+                />
+                <button onClick={saveEdit}>저장하기</button>
+              </>
+            ) : (
+              <div className="flex-col">
+                <button onClick={toggleEdit} className="w-full py-3">
+                  수정
+                </button>
+                <button
+                  onClick={() => deleteComment(commentId)}
+                  className="border-t-2 border-b-2 w-full py-3 text-error"
+                >
+                  삭제
+                </button>
+                <button
+                  type="button"
+                  onClick={onClose}
+                  className=" w-full py-3"
+                >
+                  취소
+                </button>
+              </div>
+            )}
+          </>
+        )}
+      </dialog>
+    </>
   );
 };
 
