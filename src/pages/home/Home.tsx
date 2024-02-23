@@ -1,28 +1,38 @@
-import React from 'react';
-import { Calendar } from '@/components/commonUi/calendar/Calendar';
+import { useState } from 'react';
+import Calendar from 'react-calendar';
+import 'react-calendar/dist/Calendar.css';
+
+import DateFormatter from '@/components/commonUi/date/DateFomatter';
 import FeedUi from '@/components/feedUi/FeedItemCard';
 import TopButton from '@/components/commonUi/topButton/TopButton';
+
 export default function Home() {
-  const [date, setDate] = React.useState<Date | undefined>(new Date());
+  const [date, setDate] = useState(new Date());
+
+  const handleDateChange = (newValue) => {
+    setDate(newValue);
+  };
 
   return (
-    <div className="mx-16 relative">
-      <main className="flex">
-        <section className="w-[50%] h-[100vh] bg-gray-100 fixed">
-          <Calendar
-            mode="single"
-            selected={date}
-            onSelect={setDate}
-            className="w-[50%] rounded-md mx-auto"
-          />
+    <>
+      <main className="w-[100%] flex mx-auto pt-2 min-h-screen">
+        <section className="flex-1">
+          <div className="w-[70%] mx-auto">
+            <Calendar
+              onChange={handleDateChange}
+              value={date}
+              className={'fixed'}
+            />
+          </div>
         </section>
-        <section className="w-[50%] absolute top-0 right-0  bg-gray-300">
-          <div className="w-[300px] px-[20px] bg-gray-700 mx-auto">
+        <section className="flex-1 ">
+          <div className="w-[70%] mx-auto ">
             <FeedUi />
+            <DateFormatter date={date} />
           </div>
         </section>
       </main>
       <TopButton />
-    </div>
+    </>
   );
 }
