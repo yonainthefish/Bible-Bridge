@@ -1,7 +1,7 @@
 import React from 'react';
 import { format, formatDistanceToNow } from 'date-fns';
 import { ko } from 'date-fns/locale';
-import { Timestamp } from 'firebase/firestore'; 
+import { Timestamp } from 'firebase/firestore';
 
 interface DateProps {
   date: Date | Timestamp;
@@ -22,7 +22,7 @@ function DateDisplay({ date }: DateProps) {
 
 const DateFormatter: React.FC<DateProps> = ({ date }) => {
   const formattedDate = DateDisplay({ date });
-  return <span className="text-gray-500 text-small">{formattedDate}</span>;
+  return <span className="text-gray-500 text-xs ">{formattedDate}</span>;
 };
 
 export default DateFormatter;

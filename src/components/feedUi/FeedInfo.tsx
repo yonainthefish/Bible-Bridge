@@ -30,7 +30,7 @@ const FeedInfo: React.FC<FeedItemProps> = ({ feed }) => {
           authorDisplayName={feed.authorDisplayName}
         />
 
-        <section className="aspect-square border-2 rounded-lg overflow-hidden relative">
+        <section className="aspect-square border-2 rounded-sm overflow-hidden relative">
           {feed.imageUrl && (
             <>
               <img
@@ -42,7 +42,7 @@ const FeedInfo: React.FC<FeedItemProps> = ({ feed }) => {
             </>
           )}
           <div className="absolute-center text-gray-0 p-5">
-            <h3 className="text-xl">{feed.title}</h3>
+            <h3 className="text-xl">제목: {feed.title}</h3>
             <p>{feed.text}</p>
           </div>
           <div className="absolute top-2 right-2 flex items-center gap-3">

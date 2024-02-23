@@ -40,13 +40,15 @@ export default function FeedDetail() {
   return (
     <section className="w-[70%] h-[80vh] mx-auto flex border border-gray-100 rounded-sm overflow-hidden">
       <div className="flex-1">
-        {feed.imageUrl && (
-          <img
-            src={feed.imageUrl}
-            alt="Feed"
-            className="w-full object-cover object-center"
-          />
-        )}
+        <div className="h-full bg-gray-900 flex justify-center items-center">
+          {feed.imageUrl && (
+            <img
+              src={feed.imageUrl}
+              alt="Feed"
+              className="w-full object-cover object-center"
+            />
+          )}
+        </div>
       </div>
       <div className="flex-1 flex flex-col">
         <div className="border-b py-3 pl-3">
@@ -56,9 +58,9 @@ export default function FeedDetail() {
           />
         </div>
         <div className="flex-1 overflow-y-auto text-left pl-14 pr-3">
-          <p>{feed.title}</p>
+          <p className="font-bold">제목 : {feed.title}</p>
           <p>{feed.text}</p>
-          <div className="mt-4">{id && <CommentsList postId={id} />}</div>
+          <div className="mt-8">{id && <CommentsList postId={id} />}</div>
         </div>
 
         <div className="border-t py-2 pl-3 text-left">
