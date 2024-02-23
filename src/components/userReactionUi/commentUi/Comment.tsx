@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
+import { collection, addDoc, Timestamp } from 'firebase/firestore';
 import { appFireStore } from '@/firebase/config';
 
 import useAuthContext from '@/hook/useAuthContext';
@@ -12,7 +12,6 @@ interface CommentProps {
 export default function Comment({ postId }: CommentProps) {
   const [commentText, setCommentText] = useState('');
   const { user } = useAuthContext();
-  
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setCommentText(event.target.value);
@@ -25,9 +24,10 @@ export default function Comment({ postId }: CommentProps) {
     const commentData = {
       postId,
       text: commentText,
-      createdAt: serverTimestamp(),
+      createdAt: Timestamp.now(),
       userId: user.uid,
       displayName: user.displayName,
+      authorPhotoURL: user.photoURL,
     };
 
     try {
@@ -41,15 +41,19 @@ export default function Comment({ postId }: CommentProps) {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="w-[full] flex bottom-0 ">
+    <form
+      onSubmit={handleSubmit}
+      className="w-[full] flex items-end border-t py-1"
+    >
       <Input
         type="text"
         value={commentText}
         onChange={handleInputChange}
-        placeholder="댓글을 입력하세요..."
+        placeholder="댓글을 입력하세요"
+        className="mb-0 border-none"
       />
       <button type="submit" className="w-[50px] h-[40px]">
-        제출
+        게시
       </button>
     </form>
   );
