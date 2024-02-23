@@ -10,12 +10,15 @@ export default function myPage() {
         <section className="relative">
           <ProfileCard />
         </section>
-        <section className="w-full relative">
+        <section className="w-full relative ">
           <div className="mt-[80px] mb-[30px] text-left text-gray-900 relative">
             전체묵상
             <div className="bottomLine"></div>
           </div>
-          <FeedItemCard />
+
+          <div className="w-[250px] ">
+            <FeedItemCard />
+          </div>
         </section>
       </div>
     </main>
