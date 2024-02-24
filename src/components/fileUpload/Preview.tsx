@@ -46,7 +46,7 @@ const Preview = ({
 
   return (
     <>
-      <label htmlFor="file" className="relative">
+      <label htmlFor="file" className="relative cursor-pointer">
         <img
           src={ImgUpload}
           alt="사진 업로드 버튼"
