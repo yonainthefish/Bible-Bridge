@@ -57,9 +57,9 @@ export default function FeedDetail() {
             authorDisplayName={feed.authorDisplayName}
           />
         </div>
-        <div className="flex-1 overflow-y-auto text-left pl-14 pr-3">
-          <p className="font-bold">제목 : {feed.title}</p>
-          <p>{feed.text}</p>
+        <div className="flex-1 overflow-y-auto text-left pl-4 pr-4 mt-2">
+          <p className="font-bold">오늘의 묵상 : {feed.title}</p>
+          <p style={{ whiteSpace: 'pre-wrap' }}>{feed.text}</p>
           <div className="mt-8">{id && <CommentsList postId={id} />}</div>
         </div>
 
