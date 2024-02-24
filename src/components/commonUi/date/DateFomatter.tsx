@@ -17,12 +17,12 @@ function DateDisplay({ date }: DateProps) {
   if (diff < 60 * 60 * 24 * 3) {
     return formatDistanceToNow(d, { addSuffix: true, locale: ko });
   }
-  return format(d, 'PPP EEE p', { locale: ko }); // 날짜 포맷
+  return format(d, 'PPP EEE ', { locale: ko }); // 날짜 포맷
 }
 
 const DateFormatter: React.FC<DateProps> = ({ date }) => {
   const formattedDate = DateDisplay({ date });
-  return <span className="text-gray-500 text-xs ">{formattedDate}</span>;
+  return <p className="text-gray-500 text-xs ">{formattedDate}</p>;
 };
 
 export default DateFormatter;
