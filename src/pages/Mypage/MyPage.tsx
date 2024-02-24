@@ -1,8 +1,12 @@
+import { useParams } from 'react-router-dom';
+
 import ProfileCard from '@/components/profileUi/ProfileCard';
-import FeedItemCard from '@/components/feedUi/FeedItemCard';
+import UserFeeds from '@/components/feedUi/UserFeeds';
 import '@/pages/myPage/myPage.css';
 
-export default function myPage() {
+const MyPage = () => {
+  const { userId } = useParams();
+
   return (
     <main className="h-[100vh] ">
       <div className="beforeElement z-0"></div>
@@ -12,15 +16,16 @@ export default function myPage() {
         </section>
         <section className="w-full relative ">
           <div className="mt-[80px] mb-[30px] text-left text-gray-900 relative">
-            전체묵상
+            나의 전체묵상
             <div className="bottomLine"></div>
           </div>
-
-          <div className="w-[250px] ">
-            <FeedItemCard />
-          </div>
+          <section className="flex flex-wrap border">
+            <UserFeeds userId={userId} />
+          </section>
         </section>
       </div>
     </main>
   );
-}
+};
+
+export default MyPage;
