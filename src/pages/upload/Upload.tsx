@@ -21,40 +21,44 @@ export default function Upload() {
   const [file, setFile] = useState<FileList | null>(null);
   const [title, setTitle] = useState('');
   const [text, setText] = useState('');
+  const [inputCount, setInputCount] = useState(0);
 
   const handleSubmit = async (e: SyntheticEvent) => {
     e.preventDefault();
+    if (!user) {
+      console.error('사용자가 로그인되지 않았습니다.');
+      return;
+    }
+    if (file === null) {
+      alert('사진을 선택해주세요');
+      return;
+    }
+
     try {
-      if (user) {
-        const id = uuidv4();
-        const userDocRef = doc(appFireStore, 'feed', id);
-        if (file === null) {
-          alert('Please select a file');
-          return;
-        }
+      const id = uuidv4();
+      const downloadURLs = await uploadImageToStorage(
+        file,
+        `feed/${user.uid}`,
+        id,
+      );
 
-        const downloadURLs = await uploadImageToStorage(
-          file,
-          `feed/${user.uid}`,
-          id,
-        );
+      const uploadData = {
+        title: title,
+        text: text,
+        timestamp: Timestamp.now(),
+        imageUrl: downloadURLs,
+        userId: user.uid,
+        authorDisplayName: user.displayName,
+        authorPhotoURL: user.photoURL,
+      };
 
-        const uploadData = {
-          title: title,
-          text: text,
-          timestamp: Timestamp.now(),
-          imageUrl: downloadURLs,
-          userId: user.uid,
-          authorDisplayName: user.displayName,
-          authorPhotoURL: user.photoURL,
-        };
-        await setDoc(userDocRef, uploadData);
-        navigate(`/feed/${id}`);
-      } else {
-        console.error('사용자가 로그인돠지 않았습니다.');
-      }
+      const userDocRef = doc(appFireStore, 'feed', id);
+      await setDoc(userDocRef, uploadData);
+
+      closeUploadModal();
+      navigate(`/feed/${id}`);
     } catch (error) {
-      console.error(error);
+      console.error('업로드 중 오류가 발생했습니다:', error);
     }
   };
 
@@ -63,6 +67,10 @@ export default function Upload() {
       dialogRef.current.showModal();
     }
   }, []);
+
+  const onInputHandler = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setInputCount(e.target.value.length);
+  };
 
   const closeUploadModal = () => {
     if (dialogRef.current && dialogRef.current.close) {
@@ -75,7 +83,7 @@ export default function Upload() {
     <dialog
       ref={dialogRef}
       aria-labelledby="dialog-label"
-      className="w-[32%] py-[25px] px-[70px] relative rounded-sm backdrop-blur-3xl"
+      className="w-[32%] py-[25px] px-[70px] relative rounded-sm"
     >
       <h2 className="text-title font-700">Upload Post</h2>
       <p className="text-small text-gray-500">오늘의 묵상을 나눠주세요</p>
@@ -84,26 +92,31 @@ export default function Upload() {
       </div>
       <Input
         type="text"
-        placeholder="묵상한 구절을 적어주세요"
+        placeholder="묵상 제목을 적어주세요"
         value={title}
+        maxLength={30}
         onChange={(e) => {
           setTitle(e.target.value);
         }}
-        className="mt-[25px] mb-[10px] border-2 border-gray-300 rounded-sm"
+        className="mt-[25px] mb-[10px] border border-gray-300 rounded-sm"
       ></Input>
       <form className="uploadInfo">
         <textarea
           id="uploadText"
-          maxLength={1000}
+          maxLength={500}
           cols={30}
           rows={10}
           value={text}
           onChange={(e) => {
             setText(e.target.value);
+            onInputHandler(e);
           }}
           placeholder="묵상한 내용을 적어주세요"
-          className="w-[100%] h-[120px] px-3 py-2 text-sm placeholder:text-muted-foreground focus-visible:outline-none focus:ring-violet-300   disabled:cursor-not-allowed disabled:opacity-50 border-2 border-gray-300 rounded-sm"
+          className="w-[100%] h-[120px] px-3 py-2 text-sm placeholder:text-muted-foreground focus-visible:outline-none focus:ring-violet-300   disabled:cursor-not-allowed disabled:opacity-50 border border-gray-300 rounded-sm"
         ></textarea>
+        <div className="text-right text-xs">
+          <span>{inputCount}</span> / 500 자
+        </div>
       </form>
 
       <Button type="button" onClick={handleSubmit} className="mt-[15px]">
