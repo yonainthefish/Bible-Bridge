@@ -4,7 +4,7 @@ import { doc, getDoc, getFirestore } from 'firebase/firestore';
 import useAuthContext from '@/hook/useAuthContext';
 
 import { User } from '@/components/followUi/model';
-import UserList from '@/components/followUi/FollowUserList';
+import FollowUserList from '@/components/followUi/FollowUserList';
 
 import UserImg from '@/assets/Img/Img-user.svg';
 
@@ -54,8 +54,8 @@ export default function FollowList({ userId }: User) {
     <div>
       {user?.uid === userId && (
         <>
-          <UserList userList={followingList} />
-          <UserList userList={followerList} />
+          <FollowUserList userList={followingList} />
+          <FollowUserList userList={followerList} />
         </>
       )}
     </div>
