@@ -72,7 +72,7 @@ const CommentsList: React.FC<CommentsListProps> = ({ postId }) => {
                 />
 
                 {comment.text}
-                <div className="mt-[-6px]">
+                <div className="mt-[-2px]">
                   <DateFormatter date={comment.createdAt} />
                 </div>
               </p>
