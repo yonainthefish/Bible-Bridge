@@ -23,6 +23,7 @@ const UserFeeds = ({ userId }: UserFeedsProps) => {
       const querySnapshot = await getDocs(q);
       const fetchedFeeds: FeedAndUserInfo[] = querySnapshot.docs.map((doc) => {
         const data = doc.data();
+        console.log(data);
         const timestamp = data.timestamp?.toDate
           ? data.timestamp.toDate()
           : data.timestamp;
@@ -34,7 +35,7 @@ const UserFeeds = ({ userId }: UserFeedsProps) => {
           userId: data.userId,
           authorDisplayName: data.authorDisplayName,
           authorPhotoURL: data.authorPhotoURL,
-          imageUrl: data.imgUrl,
+          imageUrl: data.imageUrl[0],
         };
       });
 
