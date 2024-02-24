@@ -99,7 +99,7 @@ export default function FeedItemCard() {
 
   return (
     <>
-      <section className="flex flex-wrap items-center justify-center gap-5">
+      <section className="flex flex-wrap items-center  gap-5">
         {feeds.map((feed) => (
           <FeedInfo key={feed.id} feed={feed} />
         ))}

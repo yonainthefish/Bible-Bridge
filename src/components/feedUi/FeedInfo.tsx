@@ -22,6 +22,10 @@ const FeedInfo: React.FC<FeedItemProps> = ({ feed }) => {
     setPrevPath(window.location.pathname);
   };
 
+  const formattedDate = feed.timestamp?.toDate
+    ? feed.timestamp.toDate()
+    : feed.timestamp;
+
   return (
     <Link to={`/feed/${feed.id}`} onClick={handleLinkClick}>
       <div className="w-[100%] bg-white ">
@@ -46,13 +50,13 @@ const FeedInfo: React.FC<FeedItemProps> = ({ feed }) => {
             <p>{feed.text}</p>
           </div>
           <div className="absolute top-2 right-2 flex items-center gap-3">
-            <Liked feedId={feed.id} />
+            <Liked feedId={feed.id} color="white" />
           </div>
         </section>
 
-        <div className="flex gap-1 text-gray-500 text-sm">
+        <div className="flex items-center gap-1 text-gray-500 text-sm">
           <img src={Calendar} alt="달력" className="text-gray-700" />
-          <DateFormatter date={feed.timestamp.toDate()} />
+          <DateFormatter date={formattedDate} />
         </div>
       </div>
     </Link>
