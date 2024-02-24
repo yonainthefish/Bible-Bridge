@@ -35,7 +35,7 @@ export default function Router() {
               <Route element={<AuthRoute />}>
                 <Route element={<LayoutRoute />}>
                   <Route path="/home" element={<Home />} />
-                  <Route path="/mypage" element={<MyPage />} />
+                  <Route path="/mypage/:userId" element={<MyPage />} />
                   <Route path="/upload" element={<Upload />} />
                   <Route path="/setting" element={<Setting />} />
                   <Route path="/explore" element={<Explore />} />
