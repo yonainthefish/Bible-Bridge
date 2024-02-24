@@ -1,8 +1,10 @@
 .topBtn {
-  position: absolute;
+  position: fixed;
   bottom: 30px;
   right: 110px;
-  background-color: blanchedalmond;
+  background-color: var(--gray-900);
+  padding: 8px;
+  border-radius: 50%;
   opacity: 0;
   z-index: 1;
 }
