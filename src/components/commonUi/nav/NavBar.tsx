@@ -1,6 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import { logout } from '@/utils/SDKUtils';
 
+import useAuthContext from '@/hook/useAuthContext';
 import useUploadContext from '@/hook/useUploadContext';
 
 import searchIcon from '@/assets/Icon/Icon-search.svg';
@@ -18,6 +19,7 @@ interface MenuItem {
 
 export default function Navbar() {
   const navigate = useNavigate();
+  const { user } = useAuthContext();
   const { setIsUploadModalOpen } = useUploadContext();
 
   const menuItems: MenuItem[] = [
@@ -33,7 +35,11 @@ export default function Navbar() {
       image: uploadIcon,
       action: () => setIsUploadModalOpen(true),
     },
-    { label: 'My', image: myPageIcon, action: () => navigate('/myPage') },
+    {
+      label: 'My',
+      image: myPageIcon,
+      action: () => navigate(`/mypage/${user?.uid}`),
+    },
     { label: 'Logout', image: logoutIcon, action: logout },
   ];
 
