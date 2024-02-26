@@ -25,7 +25,7 @@ export default function Home() {
             />
           </div>
         </section>
-        <section className="flex-1 ">
+        <section className="flex-1  border-l">
           <div className="w-[70%] mx-auto ">
             <FeedUi />
             <DateFormatter date={date} />
