@@ -47,6 +47,9 @@ export default function AlertModal({
     };
   }, []);
 
+  const buttonStyle =
+    'w-full border-2 border-gray-100 bg-gray-100 rounded-md text-gray-800 my-3 py-2 hover:border-primary-main hover:bg-primary-main transition-colors duration-300';
+
   return (
     <div
       role="dialog"
@@ -58,17 +61,26 @@ export default function AlertModal({
         role="document"
         tabIndex={-1}
         ref={modalRef}
-        className="w-[1300px] bg-gray-1 p-4 rounded-md relative"
+        className="w-[20%] bg-gray-1 p-4 rounded-md relative"
       >
         <h2 tabIndex={0} className="font-bold text-lg mt-2">
           {title}
         </h2>
 
         <div className="flex gap-2">
-          <button type="button" onClick={onClose} ref={closeButtonRef}>
+          <button
+            type="button"
+            onClick={onClose}
+            ref={closeButtonRef}
+            className={buttonStyle}
+          >
             {btnNameList[0]}
           </button>
-          <button type="button" onClick={handleAgreeBtn}>
+          <button
+            type="button"
+            onClick={handleAgreeBtn}
+            className={buttonStyle}
+          >
             {btnNameList[1]}
           </button>
         </div>
