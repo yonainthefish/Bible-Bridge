@@ -1,46 +1,22 @@
 import { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
 import {
   collection,
   getDocs,
   getDoc,
   orderBy,
   query,
-  DocumentData,
   doc,
 } from 'firebase/firestore';
 import { appFireStore } from '@/firebase/config';
 
 import { FeedAndUserInfo } from '@/components/feedUi/model';
 import FeedInfo from '@/components/feedUi/FeedInfo';
-import Modal from '@/components/modalUi/SelectModal';
-import DeleteFeedModal from '@/components/modalUi/DeleteFeedModal';
 
 import useAuthContext from '@/hook/useAuthContext';
-import useGetFeedData from '@/hook/useGetFeedDate';
-import useEditContext from '@/hook/useEditContext';
 
 export default function FeedItemCard() {
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const [feeds, setFeeds] = useState<FeedAndUserInfo[]>([]);
-  const [feedData, setFeedData] = useState<DocumentData | null>(null);
   const { user } = useAuthContext();
-  const { id } = useParams();
-  const { isEditModalOpen } = useEditContext();
-  const getFeedData = useGetFeedData();
-
-  useEffect(() => {
-    (async () => {
-      const feedData = await getFeedData();
-
-      if (feedData) {
-        setFeedData(feedData);
-      } else {
-        // setInvalidId(true);
-      }
-    })();
-  }, [isEditModalOpen]);
 
   useEffect(() => {
     const fetchFeeds = async () => {
@@ -77,15 +53,6 @@ export default function FeedItemCard() {
     fetchFeeds();
   }, [user]);
 
-  const handleCloseModal = () => {
-    setIsModalOpen(false);
-  };
-
-  const handleDeleteCloseModal = () => {
-    setDeleteModalOpen(false);
-    setIsModalOpen(false);
-  };
-
   const getUserInfo = async (userId: string) => {
     const userRef = doc(appFireStore, 'users', userId);
     const userSnap = await getDoc(userRef);
@@ -104,20 +71,6 @@ export default function FeedItemCard() {
           <FeedInfo key={feed.id} feed={feed} />
         ))}
       </section>
-
-      {isModalOpen && (
-        <Modal
-          setDeleteModalOpen={setDeleteModalOpen}
-          feedId={id || 'not found'}
-          onClose={handleCloseModal}
-        />
-      )}
-      {deleteModalOpen && (
-        <DeleteFeedModal
-          onClose={handleDeleteCloseModal}
-          imgUrlList={feedData?.imageUrl || []}
-        />
-      )}
     </>
   );
 }

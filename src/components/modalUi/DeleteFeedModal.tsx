@@ -1,42 +1,39 @@
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { appFireStore } from '@/firebase/config';
 import { doc, deleteDoc } from 'firebase/firestore';
-import { v4 as uuidv4 } from 'uuid';
 
 import useAuthContext from '@/hook/useAuthContext';
 
 import { deleteImg } from '@/utils/SDKUtils';
 import AlertModal from '@/components/modalUi/AlertModal';
 
+
 export default function DeleteFeedModal({
   onClose,
   imgUrlList,
+  feedId,
 }: {
   onClose: () => void;
-  imgUrlList: string[];
+  imgUrlList: string;
+  feedId: string;
 }) {
   const navigate = useNavigate();
-
-  const { id } = useParams();
   const { user } = useAuthContext();
 
-  if (!id) {
-    return;
-  }
-
   const handleDeletePost = async () => {
-    if (user) {
-      const id = uuidv4();
-      const postDocRef = doc(appFireStore, 'feed', id);
+    if (user && feedId) {
+      const postDocRef = doc(appFireStore, 'feed', feedId);
 
       try {
         await deleteDoc(postDocRef);
-
-        imgUrlList.forEach(async (url) => await deleteImg(url));
-
-        navigate(-1);
+        if (imgUrlList) {
+          await deleteImg(imgUrlList);
+        }
+        navigate('/home');
+        onClose();
       } catch (error) {
         console.error('게시글 삭제 오류:', error);
+        onClose();
       }
     } else {
       console.error('사용자가 로그인되지 않았습니다.');
@@ -46,11 +43,7 @@ export default function DeleteFeedModal({
   return (
     <AlertModal
       onClose={onClose}
-      handleAgreeBtn={() => {
-        (async () => {
-          await handleDeletePost();
-        })();
-      }}
+      handleAgreeBtn={handleDeletePost}
       title="게시물을 삭제하시겠습니까?"
       btnNameList={['아니요', '예']}
     />

@@ -1,7 +1,9 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { appFireStore } from '@/firebase/config';
-import { doc, getDoc } from 'firebase/firestore';
+import { doc, getDoc, DocumentData } from 'firebase/firestore';
+
+import useGetFeedData from '@/hook/useGetFeedDate';
 
 import { FeedAndUserInfo } from '@/components/feedUi/model';
 import Comment from '@/components/userReactionUi/commentUi/Comment';
@@ -9,10 +11,30 @@ import CommentsList from '@/components/userReactionUi/commentUi/CommentList';
 import DateFormatter from '@/components/commonUi/date/DateFomatter';
 import UserImgAndName from '@/components/profileUi/UserImgAndName';
 import Liked from '@/components/userReactionUi/likeUi/Liked';
+import Modal from '@/components/modalUi/SelectModal';
+import DeleteFeedModal from '@/components/modalUi/DeleteFeedModal';
+
+import SeeMore from '@/assets/Icon/Icon-More.svg';
 
 export default function FeedDetail() {
   const { id } = useParams<{ id: string }>();
   const [feed, setFeed] = useState<FeedAndUserInfo | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [deleteModalOpen, setDeleteModalOpen] = useState(false);
+  const [feedData, setFeedData] = useState<DocumentData | null>(null);
+  const getFeedData = useGetFeedData();
+
+  useEffect(() => {
+    (async () => {
+      const feedData = await getFeedData();
+
+      if (feedData) {
+        setFeedData(feedData);
+      } else {
+        // setInvalidId(true);
+      }
+    })();
+  }, []);
 
   useEffect(() => {
     const fetchFeed = async () => {
@@ -35,7 +57,22 @@ export default function FeedDetail() {
     return <div>Loading...</div>;
   }
 
-  console.log(feed);
+  const handleOpenModal = (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault();
+    event.stopPropagation();
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+  };
+
+  const handleDeleteCloseModal = () => {
+    setDeleteModalOpen(false);
+    setIsModalOpen(false);
+  };
+
+  const feedId = id;
 
   return (
     <section className="w-[70%] h-[80vh] mx-auto flex border border-gray-100 rounded-sm overflow-hidden">
@@ -51,11 +88,14 @@ export default function FeedDetail() {
         </div>
       </div>
       <div className="flex-1 flex flex-col">
-        <div className="border-b py-3 pl-3">
+        <div className="flex justify-between border-b py-3 px-3">
           <UserImgAndName
             authorPhotoURL={feed.authorPhotoURL}
             authorDisplayName={feed.authorDisplayName}
           />
+          <button type="button" onClick={handleOpenModal}>
+            <img src={SeeMore} alt="더보기" />
+          </button>
         </div>
         <div className="flex-1 overflow-y-auto text-left pl-4 pr-4 mt-2">
           <p className="font-bold">오늘의 묵상 : {feed.title}</p>
@@ -69,6 +109,20 @@ export default function FeedDetail() {
         </div>
         {id && <Comment postId={id} />}
       </div>
+      {isModalOpen && (
+        <Modal
+          setDeleteModalOpen={setDeleteModalOpen}
+          feedId={feed.id || 'not found'}
+          onClose={handleCloseModal}
+        />
+      )}
+      {deleteModalOpen && (
+        <DeleteFeedModal
+          onClose={handleDeleteCloseModal}
+          imgUrlList={feedData?.imageUrl}
+          feedId={feedId || 'defaultId'}
+        />
+      )}
     </section>
   );
 }

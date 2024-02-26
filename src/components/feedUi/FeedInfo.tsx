@@ -1,39 +1,85 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { DocumentData } from 'firebase/firestore';
 
 import usePageContext from '@/hook/usePageContext';
+import useGetFeedData from '@/hook/useGetFeedDate';
 
 import { FeedAndUserInfo } from '@/components/feedUi/model';
 import DateFormatter from '@/components/commonUi/date/DateFomatter';
 import Overlay from '@/components/commonUi/overlay/Overlay';
 import Liked from '@/components/userReactionUi/likeUi/Liked';
 import UserImgAndName from '@/components/profileUi/UserImgAndName';
+import Modal from '@/components/modalUi/SelectModal';
+import DeleteFeedModal from '@/components/modalUi/DeleteFeedModal';
 
 import Calendar from '@/assets/Icon/Icon-calendar.svg';
-
+import SeeMore from '@/assets/Icon/Icon-More.svg';
 interface FeedItemProps {
   feed: FeedAndUserInfo;
 }
 
 const FeedInfo: React.FC<FeedItemProps> = ({ feed }) => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [deleteModalOpen, setDeleteModalOpen] = useState(false);
+  const [feedData, setFeedData] = useState<DocumentData | null>(null);
   const { setPrevPath } = usePageContext();
+  const getFeedData = useGetFeedData();
+  const navigate = useNavigate();
+  const feedId = feed.id;
 
-  const handleLinkClick = () => {
-    setPrevPath(window.location.pathname);
-  };
+  useEffect(() => {
+    (async () => {
+      const feedData = await getFeedData();
+
+      if (feedData) {
+        setFeedData(feedData);
+      } else {
+        // setInvalidId(true);
+      }
+    })();
+  }, [feedId]);
 
   const formattedDate = feed.timestamp?.toDate
     ? feed.timestamp.toDate()
     : feed.timestamp;
 
-  return (
-    <Link to={`/feed/${feed.id}`} onClick={handleLinkClick}>
-      <div className="w-[100%] bg-white ">
-        <UserImgAndName
-          authorPhotoURL={feed.authorPhotoURL}
-          authorDisplayName={feed.authorDisplayName}
-        />
+  const handleLinkClick = (event: React.MouseEvent<HTMLDivElement>) => {
+    event.preventDefault();
 
+    if (!isModalOpen && !deleteModalOpen) {
+      setPrevPath(window.location.pathname);
+      navigate(`/feed/${feed.id}`);
+    }
+  };
+
+  const handleOpenModal = (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault();
+    event.stopPropagation();
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+  };
+
+  const handleDeleteCloseModal = () => {
+    setDeleteModalOpen(false);
+    setIsModalOpen(false);
+  };
+
+  return (
+    <div onClick={handleLinkClick} className="w-[100%] bg-white cursor-pointer">
+      <div className="w-[100%] bg-white">
+        <div className="flex justify-between pr-2">
+          <UserImgAndName
+            authorPhotoURL={feed.authorPhotoURL}
+            authorDisplayName={feed.authorDisplayName}
+          />
+          <button type="button" onClick={handleOpenModal}>
+            <img src={SeeMore} alt="더보기" />
+          </button>
+        </div>
         <section className="aspect-square border-2 rounded-sm overflow-hidden relative">
           {feed.imageUrl && (
             <>
@@ -59,7 +105,22 @@ const FeedInfo: React.FC<FeedItemProps> = ({ feed }) => {
           <DateFormatter date={formattedDate} />
         </div>
       </div>
-    </Link>
+
+      {isModalOpen && (
+        <Modal
+          setDeleteModalOpen={setDeleteModalOpen}
+          feedId={feed.id || 'not found'}
+          onClose={handleCloseModal}
+        />
+      )}
+      {deleteModalOpen && (
+        <DeleteFeedModal
+          onClose={handleDeleteCloseModal}
+          imgUrlList={feedData?.imageUrl}
+          feedId={feedId || 'defaultId'}
+        />
+      )}
+    </div>
   );
 };
 
