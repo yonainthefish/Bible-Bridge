@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { DocumentData } from 'firebase/firestore';
 
 import usePageContext from '@/hook/usePageContext';
@@ -26,11 +26,11 @@ const FeedInfo: React.FC<FeedItemProps> = ({ feed }) => {
   const { setPrevPath } = usePageContext();
   const getFeedData = useGetFeedData();
   const navigate = useNavigate();
-  const feedId = feed.id;
+  const { id } = useParams();
 
   useEffect(() => {
     (async () => {
-      const feedData = await getFeedData();
+      const feedData = await getFeedData(id);
 
       if (feedData) {
         setFeedData(feedData);
@@ -38,7 +38,7 @@ const FeedInfo: React.FC<FeedItemProps> = ({ feed }) => {
         // setInvalidId(true);
       }
     })();
-  }, [feedId]);
+  }, [id]);
 
   const formattedDate = feed.timestamp?.toDate
     ? feed.timestamp.toDate()
@@ -109,7 +109,6 @@ const FeedInfo: React.FC<FeedItemProps> = ({ feed }) => {
       {isModalOpen && (
         <Modal
           setDeleteModalOpen={setDeleteModalOpen}
-          feedId={feed.id || 'not found'}
           onClose={handleCloseModal}
         />
       )}
@@ -117,7 +116,7 @@ const FeedInfo: React.FC<FeedItemProps> = ({ feed }) => {
         <DeleteFeedModal
           onClose={handleDeleteCloseModal}
           imgUrlList={feedData?.imageUrl}
-          feedId={feedId || 'defaultId'}
+          feedId={id || 'defaultId'}
         />
       )}
     </div>
