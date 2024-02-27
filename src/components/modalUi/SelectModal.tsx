@@ -1,4 +1,5 @@
-import { useRef, useEffect } from 'react';
+import { useRef } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 
 import useEditContext from '@/hook/useEditContext';
 
@@ -7,54 +8,30 @@ import Close from '@/assets/Icon/Icon-close.svg';
 
 interface Props {
   onClose: () => void;
-  feedId: string;
   setDeleteModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const Modal = ({ onClose, feedId, setDeleteModalOpen }: Props) => {
+const Modal = ({ onClose, setDeleteModalOpen }: Props) => {
   const modalRef = useRef<HTMLDivElement>(null);
   const closeButtonRef = useRef<HTMLButtonElement>(null);
   const { setFeedIdToEdit, setIsEditModalOpen } = useEditContext();
+  const { id } = useParams();
+
+  const navigate = useNavigate();
+  if (!id) {
+    navigate('/home');
+    return;
+  }
 
   const handleDeleteFeed = () => {
     setDeleteModalOpen(true);
     onClose();
   };
 
-  useEffect(() => {
-    const handleKeydown = (event: KeyboardEvent) => {
-      if (event.key === 'Tab') {
-        const focusableElements = modalRef.current?.querySelectorAll(
-          'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])',
-        );
-        if (focusableElements) {
-          const firstElement = focusableElements[0] as HTMLElement;
-          const lastElement = focusableElements[
-            focusableElements.length - 1
-          ] as HTMLElement;
-          if (event.shiftKey && document.activeElement === firstElement) {
-            lastElement.focus();
-            event.preventDefault();
-          } else if (
-            !event.shiftKey &&
-            document.activeElement === lastElement
-          ) {
-            firstElement.focus();
-            event.preventDefault();
-          }
-        }
-      }
-    };
-    document.addEventListener('keydown', handleKeydown);
-
-    return () => {
-      document.removeEventListener('keydown', handleKeydown);
-    };
-  }, []);
-
-  const setEditFeedContext = (e: React.MouseEvent<HTMLButtonElement>) => {
+  const goToEditFeed = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    setFeedIdToEdit(feedId);
+
+    setFeedIdToEdit(id);
     setIsEditModalOpen(true);
     onClose();
   };
@@ -87,11 +64,7 @@ const Modal = ({ onClose, feedId, setDeleteModalOpen }: Props) => {
           >
             삭제하기
           </button>
-          <button
-            type="button"
-            onClick={setEditFeedContext}
-            className={buttonStyle}
-          >
+          <button type="button" onClick={goToEditFeed} className={buttonStyle}>
             수정하기
           </button>
         </div>
