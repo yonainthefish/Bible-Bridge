@@ -3,19 +3,16 @@ import { appFireStore } from '@/firebase/config';
 
 import useAuthContext from '@/hook/useAuthContext';
 
-import { v4 as uuidv4 } from 'uuid';
-
 export default function useGetFeedData() {
   const { user } = useAuthContext();
 
-  const getFeedData = async () => {
+  const getFeedData = async (feedId: string) => {
     if (user === null) {
       return;
     }
 
     try {
-      const id = uuidv4();
-      const docSnap = await getDoc(doc(appFireStore, 'feed', id));
+      const docSnap = await getDoc(doc(appFireStore, 'feed', feedId));
 
       return docSnap.data();
     } catch (error) {
