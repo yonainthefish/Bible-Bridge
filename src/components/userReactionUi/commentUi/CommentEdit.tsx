@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect } from 'react';
 
+import { Button } from '@/components/commonUi/button/Button';
 import useAuthContext from '@/hook/useAuthContext';
 import useDeleteComment from '@/hook/useDeleteComment';
 import useUpdateComment from '@/hook/useUpdateComment';
@@ -46,18 +47,29 @@ const CommentEdit: React.FC<CommentEditProps> = ({
           }
         }}
         aria-labelledby="dialog-label"
-        className="w-[20%] rounded-sm bg-gray-50 overflow-hidden text-center cursor-pointer text-sm"
+        className="w-[300px] rounded-sm bg-gray-50 overflow-hidden text-center cursor-pointer text-sm"
       >
         {user?.uid === userId && (
           <>
             {isEditing ? (
-              <>
+              <div className="w-[90%] my-4 rounded-md mx-auto">
+                <p className="text-left text-xs text-gray-700 ml-2 mb-1">
+                  댓글수정
+                </p>
                 <textarea
                   value={editedText}
                   onChange={(e) => setEditedText(e.target.value)}
+                  className="w-full p-2 rounded-sm border"
                 />
-                <button onClick={saveEdit}>저장하기</button>
-              </>
+                <div className="flex justify-between mt-4 ">
+                  <Button size="light" variant="outline" onClick={onClose}>
+                    취소
+                  </Button>
+                  <Button size="light" onClick={saveEdit}>
+                    완료
+                  </Button>
+                </div>
+              </div>
             ) : (
               <div className="flex-col">
                 <button onClick={toggleEdit} className="w-full py-3">
