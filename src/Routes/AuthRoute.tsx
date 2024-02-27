@@ -23,7 +23,7 @@ export function AuthRoute() {
 
 export function NonAuthRoute() {
   const { user } = useAuthContext();
-  console.log(user);
+
   if (user) {
     return <Navigate to="/home" replace />;
   }
