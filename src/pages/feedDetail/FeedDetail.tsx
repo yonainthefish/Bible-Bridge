@@ -21,12 +21,13 @@ export default function FeedDetail() {
   const [feed, setFeed] = useState<FeedAndUserInfo | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
+
   const [feedData, setFeedData] = useState<DocumentData | null>(null);
   const getFeedData = useGetFeedData();
 
   useEffect(() => {
     (async () => {
-      const feedData = await getFeedData();
+      const feedData = await getFeedData(id);
 
       if (feedData) {
         setFeedData(feedData);
@@ -72,7 +73,7 @@ export default function FeedDetail() {
     setIsModalOpen(false);
   };
 
-  const feedId = id;
+  // const feedId = id;
 
   return (
     <section className="w-[70%] h-[80vh] mx-auto flex border border-gray-100 rounded-sm overflow-hidden">
@@ -112,7 +113,6 @@ export default function FeedDetail() {
       {isModalOpen && (
         <Modal
           setDeleteModalOpen={setDeleteModalOpen}
-          feedId={feed.id || 'not found'}
           onClose={handleCloseModal}
         />
       )}
@@ -120,7 +120,7 @@ export default function FeedDetail() {
         <DeleteFeedModal
           onClose={handleDeleteCloseModal}
           imgUrlList={feedData?.imageUrl}
-          feedId={feedId || 'defaultId'}
+          feedId={id || 'defaultId'}
         />
       )}
     </section>
