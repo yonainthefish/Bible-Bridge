@@ -14,6 +14,7 @@ import Setting from '@/pages/setting/Setting';
 import Upload from '@/pages/upload/Upload';
 import Explore from '@/pages/explore/Explore';
 import FeedDetail from '@/pages/feedDetail/FeedDetail';
+import DialogRoute from '@/routes/DialogRoute';
 
 export default function Router() {
   const { isAuthReady } = useAuthContext();
@@ -32,14 +33,16 @@ export default function Router() {
                 <Route path="/signup" element={<SignUp />} />
               </Route>
 
-              <Route element={<AuthRoute />}>
-                <Route element={<LayoutRoute />}>
-                  <Route path="/home" element={<Home />} />
-                  <Route path="/mypage/:userId" element={<MyPage />} />
-                  <Route path="/upload" element={<Upload />} />
-                  <Route path="/setting" element={<Setting />} />
-                  <Route path="/explore" element={<Explore />} />
-                  <Route path="/feed/:id" element={<FeedDetail />} />
+              <Route element={<DialogRoute />}>
+                <Route element={<AuthRoute />}>
+                  <Route element={<LayoutRoute />}>
+                    <Route path="/home" element={<Home />} />
+                    <Route path="/mypage/:userId" element={<MyPage />} />
+                    <Route path="/upload" element={<Upload />} />
+                    <Route path="/setting" element={<Setting />} />
+                    <Route path="/explore" element={<Explore />} />
+                    <Route path="/feed/:id" element={<FeedDetail />} />
+                  </Route>
                 </Route>
               </Route>
             </>
