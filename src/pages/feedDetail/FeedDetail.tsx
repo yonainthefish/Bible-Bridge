@@ -27,15 +27,16 @@ export default function FeedDetail() {
 
   useEffect(() => {
     (async () => {
+      if (!id) {
+        return;
+      }
       const feedData = await getFeedData(id);
 
       if (feedData) {
         setFeedData(feedData);
-      } else {
-        // setInvalidId(true);
       }
     })();
-  }, []);
+  }, [id, getFeedData]);
 
   useEffect(() => {
     const fetchFeed = async () => {
@@ -72,8 +73,6 @@ export default function FeedDetail() {
     setDeleteModalOpen(false);
     setIsModalOpen(false);
   };
-
-  // const feedId = id;
 
   return (
     <section className="w-[70%] h-[80vh] mx-auto flex border border-gray-100 rounded-sm overflow-hidden">

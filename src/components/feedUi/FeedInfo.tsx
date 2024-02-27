@@ -30,15 +30,16 @@ const FeedInfo: React.FC<FeedItemProps> = ({ feed }) => {
 
   useEffect(() => {
     (async () => {
+      if (!id) {
+        return;
+      }
       const feedData = await getFeedData(id);
 
       if (feedData) {
         setFeedData(feedData);
-      } else {
-        // setInvalidId(true);
       }
     })();
-  }, [id]);
+  }, [id, getFeedData]);
 
   const formattedDate = feed.timestamp?.toDate
     ? feed.timestamp.toDate()

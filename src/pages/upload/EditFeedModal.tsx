@@ -39,6 +39,9 @@ export default function EditFeedModal() {
 
   useEffect(() => {
     const setFeedData = async () => {
+      if (!id) {
+        return;
+      }
       const data = await getFeedData(id);
 
       console.log(data);
@@ -54,7 +57,7 @@ export default function EditFeedModal() {
     };
 
     setFeedData();
-  }, []);
+  }, [id, getFeedData]);
 
   const handleSubmit = async (e: SyntheticEvent) => {
     e.preventDefault();
@@ -71,6 +74,10 @@ export default function EditFeedModal() {
     try {
       setIsPending(true);
       let downloadURLs: string[] = imageUrl;
+
+      if (!id) {
+        return;
+      }
 
       if (file !== null) {
         downloadURLs = await uploadImageToStorage(file, `feed/${user.uid}`, id);
