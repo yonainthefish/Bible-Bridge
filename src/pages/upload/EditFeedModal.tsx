@@ -44,7 +44,6 @@ export default function EditFeedModal() {
       }
       const data = await getFeedData(id);
 
-      console.log(data);
       if (data) {
         setTitle(data.title);
         setText(data.text);
