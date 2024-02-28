@@ -70,14 +70,21 @@ const FeedInfo: React.FC<FeedItemProps> = ({ feed }) => {
   };
 
   return (
-    <div onClick={handleLinkClick} className="w-[100%] bg-white cursor-pointer">
+    <div
+      onClick={handleLinkClick}
+      className="w-[100%] bg-white cursor-pointer border"
+    >
       <div className="w-[100%] bg-white">
-        <div className="flex justify-between pr-2">
+        <div className="flex justify-between">
           <UserImgAndName
             authorPhotoURL={feed.authorPhotoURL}
             authorDisplayName={feed.authorDisplayName}
           />
-          <button type="button" onClick={handleOpenModal}>
+          <button
+            type="button"
+            onClick={handleOpenModal}
+            className="border px-2"
+          >
             <img src={SeeMore} alt="더보기" />
           </button>
         </div>
