@@ -7,7 +7,6 @@ import useGetFeedData from '@/hook/useGetFeedDate';
 
 import { FeedAndUserInfo } from '@/components/feedUi/model';
 import DateFormatter from '@/components/commonUi/date/DateFomatter';
-import Overlay from '@/components/commonUi/overlay/Overlay';
 import Liked from '@/components/userReactionUi/likeUi/Liked';
 import UserImgAndName from '@/components/profileUi/UserImgAndName';
 import Modal from '@/components/modalUi/SelectModal';
@@ -72,7 +71,7 @@ const FeedInfo: React.FC<FeedItemProps> = ({ feed }) => {
   return (
     <div
       onClick={handleLinkClick}
-      className="w-[100%] bg-white cursor-pointer border"
+      className="w-[100%] bg-white cursor-pointer border "
     >
       <div className="w-[100%] bg-white">
         <div className="flex justify-between">
@@ -88,15 +87,16 @@ const FeedInfo: React.FC<FeedItemProps> = ({ feed }) => {
             <img src={SeeMore} alt="더보기" />
           </button>
         </div>
-        <section className="aspect-square border-2 rounded-sm overflow-hidden relative">
+
+        <section className="aspect-square rounded-sm overflow-hidden relative ">
           {feed.imageUrl && (
             <>
               <img
                 src={feed.imageUrl}
                 alt="Feed"
-                className="w-full h-full object-cover object-center"
+                className="w-full h-full object-cover object-center "
               />
-              <Overlay />
+              <div className="absolute top-0 left-0 right-0 bottom-0 bg-black bg-opacity-50"></div>
             </>
           )}
           <div className="absolute-center text-gray-0 p-5">

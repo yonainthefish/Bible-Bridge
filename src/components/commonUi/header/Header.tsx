@@ -25,7 +25,7 @@ export default function Header() {
   return (
     <>
       <header
-        className={`w-[calc(100%-80px)] h-20 px-16 bg-gray-0 flex items-center fixed top-0 left-0 right-0 z-5
+        className={`w-[calc(100%-80px)] h-20 px-16 bg-gray-0 flex items-center fixed top-0 left-0 right-0 z-20
         ${shadow ? 'shadow-md' : ''}`}
       >
         <Link to="/home">
