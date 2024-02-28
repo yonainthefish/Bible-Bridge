@@ -20,15 +20,19 @@ const CommentEdit: React.FC<CommentEditProps> = ({
 }) => {
   const dialogRef = useRef<HTMLDialogElement>();
   const { user } = useAuthContext();
-  const deleteComment = useDeleteComment();
-  const updateComment = useUpdateComment();
   const [isEditing, setIsEditing] = useState(false);
   const [editedText, setEditedText] = useState(originalText);
+  const deleteComment = useDeleteComment();
+  const updateComment = useUpdateComment();
   const toggleEdit = () => setIsEditing(!isEditing);
+
   const saveEdit = async () => {
     await updateComment(commentId, editedText);
     setIsEditing(false);
     onClose();
+    if (dialogRef.current) {
+      dialogRef.current.close();
+    }
   };
 
   useEffect(() => {
