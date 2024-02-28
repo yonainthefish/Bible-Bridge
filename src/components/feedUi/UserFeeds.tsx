@@ -50,8 +50,8 @@ const UserFeeds = ({ userId }: UserFeedsProps) => {
     <div className="flex flex-wrap items-center  gap-5">
       {feeds.length > 0 ? (
         feeds.map((feed) => (
-          <div className="w-[240px]">
-            <FeedInfo key={feed.id} feed={feed} />
+          <div className="w-[240px]" key={feed.id}>
+            <FeedInfo feed={feed} />
           </div>
         ))
       ) : (
