@@ -46,7 +46,7 @@ export default function Navbar() {
   const commonClasses =
     'w-full h-20 bg-gray-0 text-gray-600 text-small items-center hover:bg-primary-30';
   const navStyle =
-    'w-20 h-full bg-gray-0 border-l-2 border-gray-100 fixed top-0 right-0 flex flex-col z-5';
+    'w-20 h-full bg-gray-0 border-l-2 border-gray-100 fixed top-0 right-0 flex flex-col z-20';
 
   return (
     <nav className={navStyle}>
