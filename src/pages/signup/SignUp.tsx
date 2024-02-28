@@ -103,8 +103,6 @@ export default function SignUp() {
 
   const handlePasswordConfirmInp = (value: string) => {
     setPasswordConfirm(value);
-    // console.log('value:', value);
-    // console.log('password:', password);
 
     if (value !== password) {
       setMatchPassword(false);
@@ -292,6 +290,7 @@ export default function SignUp() {
               '회원가입 완료'
             )}
           </Button>
+          <>{console.log("완료")}</>
         </form>
         <div className="flex items-center gap-4  pt-7">
           <p className="text-gray-600 text-small ">이미 회원이세요?</p>
