@@ -40,6 +40,7 @@ export default function Liked({ feedId, color = 'black' }: LikeButtonProps) {
 
   const handleLikeClick = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
+    e.stopPropagation();
 
     if (!user) {
       alert('로그인이 필요합니다.');
