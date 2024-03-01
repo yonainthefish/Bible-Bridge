@@ -1,13 +1,9 @@
 import { Outlet, Navigate } from 'react-router-dom';
 
-import useAuthContext from '../hook/useAuthContext';
-import useUploadContext from '@/hook/useUploadContext';
-
-import Upload from '@/pages/upload/Upload';
+import useAuthContext from '@/hook/useAuthContext';
 
 export function AuthRoute() {
   const { user } = useAuthContext();
-  const { isUploadModalOpen } = useUploadContext();
 
   if (!user) {
     return <Navigate to="/login" replace />;
@@ -16,7 +12,6 @@ export function AuthRoute() {
   return (
     <>
       <Outlet />
-      {isUploadModalOpen && <Upload />}
     </>
   );
 }
