@@ -20,6 +20,7 @@ export default function FollowCard({
   userId,
   displayName,
   photoURL,
+  updateFollowLists,
 }: FollowCardProps) {
   const { user } = useAuthContext();
   const [isFollowing, setIsFollowing] = useState(false);
@@ -49,24 +50,32 @@ export default function FollowCard({
     const userRef = doc(db, 'users', user.uid);
     const targetUserRef = doc(db, 'users', userId);
 
-    if (isFollowing) {
-      // 이미 팔로우 중이라면 팔로우 취소
-      await updateDoc(userRef, {
-        followingList: arrayRemove(userId),
-      });
-      await updateDoc(targetUserRef, {
-        followerList: arrayRemove(user.uid),
-      });
-      setIsFollowing(false);
-    } else {
-      // 팔로우하지 않았다면 팔로우 추가
-      await updateDoc(userRef, {
-        followingList: arrayUnion(userId),
-      });
-      await updateDoc(targetUserRef, {
-        followerList: arrayUnion(user.uid),
-      });
-      setIsFollowing(true);
+    try {
+      if (isFollowing) {
+        // 언팔로우 로직
+        await updateDoc(userRef, {
+          followingList: arrayRemove(userId),
+        });
+        await updateDoc(targetUserRef, {
+          followerList: arrayRemove(user.uid),
+        });
+        setIsFollowing(false);
+      } else {
+        // 팔로우 로직
+        await updateDoc(userRef, {
+          followingList: arrayUnion(userId),
+        });
+        await updateDoc(targetUserRef, {
+          followerList: arrayUnion(user.uid),
+        });
+        setIsFollowing(true);
+      }
+
+      if (updateFollowLists) {
+        updateFollowLists();
+      }
+    } catch (error) {
+      console.error('Error updating follow status', error);
     }
   };
 
@@ -78,10 +87,14 @@ export default function FollowCard({
           alt="User"
           className="h-9 w-9 rounded-full object-cover"
         />
-        <p>{displayName || '알 수 없음!'}</p>
+        <p className="ml-2 text-left">{displayName || 'unKnown User'}</p>
       </div>
       {user?.uid !== userId && (
-        <Button onClick={handleFollow}>
+        <Button
+          onClick={handleFollow}
+          variant={isFollowing ? 'outline' : 'default'}
+          className="w-[20%]"
+        >
           {isFollowing ? '언팔로우' : '팔로우'}
         </Button>
       )}
