@@ -14,21 +14,21 @@ export default function FollowList({ userId }: User) {
   const [followerList, setFollowerList] = useState<User[]>([]);
   const db = getFirestore();
 
-  const fetchUserList = async (userIds: string[]): Promise<User[]> => {
-    return Promise.all(
-      userIds.map(async (id: string) => {
-        const userDocSnap = await getDoc(doc(db, 'users', id));
-        const User = userDocSnap.data() as User;
-        return {
-          userId: id,
-          displayName: User.displayName || 'Unknown',
-          photoURL: User.photoURL || UserImg,
-        };
-      }),
-    );
-  };
-
   useEffect(() => {
+    const fetchUserList = async (userIds: string[]): Promise<User[]> => {
+      return Promise.all(
+        userIds.map(async (id: string) => {
+          const userDocSnap = await getDoc(doc(db, 'users', id));
+          const User = userDocSnap.data() as User;
+          return {
+            userId: id,
+            displayName: User.displayName || 'Unknown',
+            photoURL: User.photoURL || UserImg,
+          };
+        }),
+      );
+    };
+
     const fetchUserLists = async () => {
       if (!userId) return;
       const userRef = doc(db, 'users', userId);
