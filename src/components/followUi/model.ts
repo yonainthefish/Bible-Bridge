@@ -19,10 +19,12 @@ export interface FeedItem extends User {
 export interface ListProps<T> {
   title?: string;
   userList: T[];
+  updateFollowLists?: () => void;
 }
 
 export interface FollowCardProps {
   userId: string;
   displayName: string | undefined;
   photoURL?: string;
+  updateFollowLists?: () => void;
 }
