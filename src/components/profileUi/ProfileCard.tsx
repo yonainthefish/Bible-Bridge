@@ -6,7 +6,8 @@ import { appFireStore } from '@/firebase/config';
 
 import useAuthContext from '@/hook/useAuthContext';
 
-import FollowList from '@/components/followUi/FollowList';
+import { User } from '@/components/profileUi/model';
+import FollowUserList from '@/components/followUi/FollowUserList';
 import { Button } from '@/components/commonUi/button/Button';
 import FollowCountList from '@/components/followUi/FollowCountList';
 import ProfileUserInfo from '@/components/profileUi/ProfileUserInfo';
@@ -14,28 +15,61 @@ import ProfileUserInfo from '@/components/profileUi/ProfileUserInfo';
 export default function ProfileCard() {
   const { user } = useAuthContext();
   const [userDetails, setUserDetails] = useState<DocumentData | null>(null);
-
+  const [selectedTab, setSelectedTab] = useState('followers');
   const navigate = useNavigate();
 
   const handleEditProfile = () => {
     navigate('/setting');
   };
 
-  useEffect(() => {
-    const fetchUserDetails = async () => {
-      if (user) {
-        const userRef = doc(appFireStore, 'users', user.uid);
-        const docSnap = await getDoc(userRef);
-        if (docSnap.exists()) {
-          setUserDetails(docSnap.data());
-        } else {
-          console.log('No such document!');
-        }
-      }
-    };
+  const fetchUserDetails = async () => {
+    if (!user) return;
 
+    const userRef = doc(appFireStore, 'users', user.uid);
+    const docSnap = await getDoc(userRef);
+
+    if (docSnap.exists()) {
+      const data = docSnap.data();
+      const followers = await fetchUserInfo(data.followerList || []);
+      const followings = await fetchUserInfo(data.followingList || []);
+
+      setUserDetails({
+        ...data,
+        followerList: followers,
+        followingList: followings,
+      });
+    } else {
+      console.log('No such document!');
+    }
+  };
+
+  useEffect(() => {
     fetchUserDetails();
   }, [user]);
+
+  const fetchUserInfo = async (userIds: string[]): Promise<User[]> => {
+    const users = await Promise.all(
+      userIds.map(async (userId): Promise<User | null> => {
+        const userRef = doc(appFireStore, 'users', userId);
+        const userSnap = await getDoc(userRef);
+        if (!userSnap.exists()) {
+          return null;
+        }
+        const userData = userSnap.data() as User;
+        return {
+          userId: userId,
+          displayName: userData.displayName || 'Unknown',
+          photoURL: userData.photoURL || 'UserImg',
+        };
+      }),
+    );
+
+    return users.filter((user): user is User => user !== null);
+  };
+
+  const updateFollowLists = async () => {
+    await fetchUserDetails();
+  };
 
   if (!user || !userDetails) {
     return <div>Loading...</div>;
@@ -52,26 +86,41 @@ export default function ProfileCard() {
       </Link>
 
       <section className="flex items-center justify-around border-2 my-7">
-        <button>
+        <button onClick={() => setSelectedTab('followers')}>
           <FollowCountList
-            userList={userDetails.followingList || []}
+            userList={userDetails.followerList || []}
             title="Follower"
           />
         </button>
-        <button>
+        <button onClick={() => setSelectedTab('following')}>
           <FollowCountList
-            userList={userDetails.followerList || []}
+            userList={userDetails.followingList || []}
             title="Following"
           />
         </button>
       </section>
       <section className="h-[250px] max-h-[250px] overflow-auto">
-        {user && (
-          <FollowList
-            userId={user.uid}
-            displayName={user.displayName || 'Unknown User'}
-          />
-        )}
+        {(() => {
+          const list =
+            selectedTab === 'followers'
+              ? userDetails.followerList
+              : userDetails.followingList;
+          const emptyMessage =
+            selectedTab === 'followers'
+              ? '아직 팔로한 유저가 없습니다.'
+              : '아직 팔로잉한 유저가 없습니다.';
+
+          if (list && list.length > 0) {
+            return (
+              <FollowUserList
+                userList={list}
+                updateFollowLists={updateFollowLists}
+              />
+            );
+          } else {
+            return <p className="text-center">{emptyMessage}</p>;
+          }
+        })()}
       </section>
     </article>
   );

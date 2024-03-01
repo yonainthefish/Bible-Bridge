@@ -3,7 +3,10 @@ import React from 'react';
 import { ListProps, User } from '@/components/followUi/model';
 import FollowCard from '@/components/followUi/FollowCard';
 
-const FollowUserList: React.FC<ListProps<User>> = ({ userList }) => {
+const FollowUserList: React.FC<ListProps<User>> = ({
+  userList,
+  updateFollowLists,
+}) => {
   return (
     <>
       {userList.map(({ userId, displayName, photoURL }) => (
@@ -12,6 +15,7 @@ const FollowUserList: React.FC<ListProps<User>> = ({ userList }) => {
           userId={userId}
           displayName={displayName}
           photoURL={photoURL}
+          updateFollowLists={updateFollowLists}
         />
       ))}
     </>
