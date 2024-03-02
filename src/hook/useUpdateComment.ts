@@ -1,4 +1,3 @@
-// hooks/useUpdateComment.js
 import { doc, updateDoc } from 'firebase/firestore';
 import { appFireStore } from '@/firebase/config';
 
