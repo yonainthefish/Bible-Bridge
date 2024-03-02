@@ -25,7 +25,6 @@ const FeedInfo: React.FC<FeedItemProps> = ({ feed }) => {
   const { setPrevPath } = usePageContext();
   const getFeedData = useGetFeedData();
   const navigate = useNavigate();
-  // const { id } = useParams();
 
   useEffect(() => {
     (async () => {
