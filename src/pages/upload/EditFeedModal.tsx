@@ -48,7 +48,7 @@ export default function EditFeedModal() {
         setTitle(data.title);
         setText(data.text);
         setTimestamp(data.timestamp);
-        setImageUrl(data.imageUrl[0]);
+        setImageUrl(data.imageUrl);
         setUserId(data.userId);
         setAuthorDisplayName(data.authorDisplayName);
         setAuthorPhotoURL(data.authorPhotoURL);
