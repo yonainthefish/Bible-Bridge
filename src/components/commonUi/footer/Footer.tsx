@@ -1,4 +1,3 @@
-import React from 'react';
 import FooterLogo from '@/assets/Img/Logo-text-small-gray.svg';
 import GithubGray from '@/assets/Img/Img-github-gray.svg';
 
