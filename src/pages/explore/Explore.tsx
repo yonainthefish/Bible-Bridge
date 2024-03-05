@@ -20,7 +20,7 @@ export default function Explore() {
         const querySnapshot = await getDocs(collection(appFireStore, 'users'));
         const usersList: User[] = [];
         querySnapshot.forEach((doc) => {
-          console.log(doc.id);
+          // console.log(doc.id);
 
           usersList.push({ ...(doc.data() as User), uniqueId: doc.id });
         });
