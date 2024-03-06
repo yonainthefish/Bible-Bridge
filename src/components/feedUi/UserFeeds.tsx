@@ -39,7 +39,6 @@ const UserFeeds = ({ userId }: UserFeedsProps) => {
         };
       });
 
-      console.log(fetchedFeeds);
       setFeeds(fetchedFeeds);
     };
 
