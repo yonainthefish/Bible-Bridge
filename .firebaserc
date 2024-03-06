@@ -1,5 +1,8 @@
 {
   "projects": {
-    "default": "biblebridge-8d0a3"
-  }
+    "default": "bible-bridge-28aa7",
+    " ": "bible-bridge-28aa7"
+  },
+  "targets": {},
+  "etags": {}
 }
