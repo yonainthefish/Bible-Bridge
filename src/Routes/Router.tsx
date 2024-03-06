@@ -1,20 +1,20 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import { AuthRoute, NonAuthRoute } from '@/routes/AuthRoute';
+import { AuthRoute, NonAuthRoute } from '@/Routes/AuthRoute';
 import useAuthContext from '@/hook/useAuthContext';
-import LayoutRoute from '@/routes/LayoutRoute';
+import LayoutRoute from '@/Routes/LayoutRoute';
 
 import Splash from '@/pages/splash/Splash';
 import StaticSplash from '@/pages/splash/StaticSplash';
 
-import LogIn from '@/pages/login/LogIn';
+import LogIn from '@/pages/Login/LogIn';
 import SignUp from '@/pages/signup/SignUp';
 import Home from '@/pages/home/Home';
-import MyPage from '@/pages/myPage/MyPage';
+import MyPage from '@/pages/Mypage/MyPage';
 import Setting from '@/pages/setting/Setting';
 import Upload from '@/pages/upload/Upload';
 import Explore from '@/pages/explore/Explore';
 import FeedDetail from '@/pages/feedDetail/FeedDetail';
-import DialogRoute from '@/routes/DialogRoute';
+import DialogRoute from '@/Routes/DialogRoute';
 
 export default function Router() {
   const { isAuthReady } = useAuthContext();
