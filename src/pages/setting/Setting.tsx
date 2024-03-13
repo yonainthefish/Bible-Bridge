@@ -6,7 +6,6 @@ import useReauthenticate from '@/hook/useReauthenticate';
 import { useUpdateProfile } from '@/hook/useUpdateProfile';
 
 import { ProfileProps } from '@/hook/model';
-import ProfileCard from '@/components/profileUi/ProfileCard';
 import { Button } from '@/components/commonUi/button/Button';
 import { Input } from '@/components/commonUi/input/Input';
 import { Label } from '@/components/commonUi/label/Label';
@@ -65,7 +64,6 @@ export default function Setting() {
       setSrc(user.photoURL);
     }
 
-    // 초기화
     setEmailValid(true);
     setPasswordValid(true);
     setMatchPassword(true);
@@ -142,7 +140,6 @@ export default function Setting() {
     setChanged(false);
     setUpdateProfileIsPending(true);
 
-    // 현재 비밀번호 입력받은 후, 재인증
     if (email !== user?.email || password) {
       const success = await reconfirmPassword();
 
@@ -207,139 +204,133 @@ export default function Setting() {
   };
 
   return (
-    <main>
-      <div className="before-element z-0"></div>
-      <div className="flex pl-[70px] pr-[150px] pt-[100px] gap-10 z-10">
-        <section className="relative">
-          <ProfileCard />
-        </section>
-        <section className="w-[1000px] bg-gray-400 relative">
-          <h2 className="text-gray-100 text-left text-md">Profile Setting</h2>
-          <div className="w-[80%] mx-auto">
-            <form onSubmit={handleSubmit} className="w-full mx-auto">
-              <Label
-                htmlFor="profile-input"
-                className="cursor-pointer overflow-hidden"
-              >
-                <div className=" w-[100px] h-[100px]  overflow-hidden mx-auto relative mb-7">
-                  <img
-                    src={src || ProfileImg}
-                    alt="프로필 이미지 등록"
-                    className="object-cover w-[100px] h-[100px] rounded-full"
-                  />
-                  <img
-                    src={ProfileAddImg}
-                    alt="변경하기"
-                    className="absolute bottom-0 right-0"
-                  />
-                </div>
-              </Label>
-              <Input
-                id="profile-input"
-                type="file"
-                className="sr-only"
-                onChange={setProfileImage}
-              />
-
-              <Label htmlFor="email-input" className="sr-only">
-                이메일
-              </Label>
-              <Input
-                type="email"
-                id="email-input"
-                placeholder="이메일"
-                value={email}
-                onChange={handleEmailInp}
-                required
-              />
-              <div style={{ position: 'relative' }}>
-                <strong
-                  role="alert"
-                  className={`text-error text-smaller ${
-                    emailErrMessage ? 'visible' : 'invisible'
-                  }`}
-                  style={{ position: 'absolute', left: '10px', top: '-17px' }}
-                >
-                  {emailErrMessage && `*${emailErrMessage}`}
-                </strong>
+    <div className="border py-14">
+      <div className="w-[60%] bg-gray-100 border-2 rounded-sm mx-auto p-10">
+        <h2 className="text-gray-900 text-3xl mb-4">Profile Setting</h2>
+        <div className="w-[80%] mx-auto">
+          <form onSubmit={handleSubmit} className="w-full mx-auto">
+            <Label
+              htmlFor="profile-input"
+              className="cursor-pointer overflow-hidden"
+            >
+              <div className=" w-[100px] h-[100px]  overflow-hidden mx-auto relative mb-7">
+                <img
+                  src={src || ProfileImg}
+                  alt="프로필 이미지 등록"
+                  className="object-cover w-[100px] h-[100px] rounded-full"
+                />
+                <img
+                  src={ProfileAddImg}
+                  alt="변경하기"
+                  className="absolute bottom-0 right-0"
+                />
               </div>
+            </Label>
+            <Input
+              id="profile-input"
+              type="file"
+              className="sr-only"
+              onChange={setProfileImage}
+            />
 
-              <Label htmlFor="password-input" className="sr-only">
-                비밀번호
-              </Label>
-              <Input
-                type="password"
-                id="password-inp"
-                placeholder="비밀번호 (6자 이상 입력해주세요)"
-                value={password}
-                onChange={handlePasswordInp}
-                required
-              />
-              <div style={{ position: 'relative' }}>
-                <strong
-                  role="alert"
-                  className={`text-error text-smaller   ${
-                    passwordErrMessage ? 'visible' : 'invisible'
-                  }`}
-                  style={{ position: 'absolute', left: '10px', top: '-17px' }}
-                >
-                  {passwordErrMessage && `*${passwordErrMessage}`}
-                </strong>
-              </div>
-
-              <Label htmlFor="passwordConfirm-input" className="sr-only">
-                비밀번호 확인
-              </Label>
-              <Input
-                type="password"
-                id="password-inp"
-                placeholder="비밀번호 확인"
-                value={passwordConfirm}
-                onChange={handlePasswordConfirmInp}
-                required
-              />
-              <div style={{ position: 'relative' }}>
-                <strong
-                  role="alert"
-                  className={`text-error text-smaller   ${
-                    passwordConfirmErrMessage ? 'visible' : 'invisible'
-                  }`}
-                  style={{ position: 'absolute', left: '10px', top: '-17px' }}
-                >
-                  {passwordConfirmErrMessage && `*${passwordConfirmErrMessage}`}
-                </strong>
-              </div>
-
-              <Label htmlFor="displayName-input" className="sr-only">
-                닉네임
-              </Label>
-              <Input
-                type="text"
-                id="displayName-input"
-                placeholder="닉네임 (2자 ~ 15자 내외)"
-                value={displayName || ''}
-                onChange={(e) => setDisplayName(e.target.value)}
-                required
-              />
-              <div style={{ position: 'relative' }}></div>
-
-              <Button
-                className={`${
-                  !emailValid || !passwordValid || !matchPassword || !changed
-                    ? 'opacity-30 cursor-not-allowed'
-                    : ''
+            <Label htmlFor="email-input" className="sr-only">
+              이메일
+            </Label>
+            <Input
+              type="email"
+              id="email-input"
+              placeholder="이메일"
+              value={email}
+              onChange={handleEmailInp}
+              required
+            />
+            <div style={{ position: 'relative' }}>
+              <strong
+                role="alert"
+                className={`text-error text-smaller ${
+                  emailErrMessage ? 'visible' : 'invisible'
                 }`}
+                style={{ position: 'absolute', left: '10px', top: '-17px' }}
               >
-                {updateProfileIsPending ? (
-                  <img src={LoadingIcon} alt="계정 생성 중" />
-                ) : (
-                  '프로필 수정 완료'
-                )}
-              </Button>
-            </form>
-          </div>
-        </section>
+                {emailErrMessage && `*${emailErrMessage}`}
+              </strong>
+            </div>
+
+            <Label htmlFor="password-input" className="sr-only">
+              비밀번호
+            </Label>
+            <Input
+              type="password"
+              id="password-inp"
+              placeholder="비밀번호 (6자 이상 입력해주세요)"
+              value={password}
+              onChange={handlePasswordInp}
+              required
+            />
+            <div style={{ position: 'relative' }}>
+              <strong
+                role="alert"
+                className={`text-error text-smaller   ${
+                  passwordErrMessage ? 'visible' : 'invisible'
+                }`}
+                style={{ position: 'absolute', left: '10px', top: '-17px' }}
+              >
+                {passwordErrMessage && `*${passwordErrMessage}`}
+              </strong>
+            </div>
+
+            <Label htmlFor="passwordConfirm-input" className="sr-only">
+              비밀번호 확인
+            </Label>
+            <Input
+              type="password"
+              id="password-inp"
+              placeholder="비밀번호 확인"
+              value={passwordConfirm}
+              onChange={handlePasswordConfirmInp}
+              required
+            />
+            <div style={{ position: 'relative' }}>
+              <strong
+                role="alert"
+                className={`text-error text-smaller   ${
+                  passwordConfirmErrMessage ? 'visible' : 'invisible'
+                }`}
+                style={{ position: 'absolute', left: '10px', top: '-17px' }}
+              >
+                {passwordConfirmErrMessage && `*${passwordConfirmErrMessage}`}
+              </strong>
+            </div>
+
+            <Label htmlFor="displayName-input" className="sr-only">
+              닉네임
+            </Label>
+            <Input
+              type="text"
+              id="displayName-input"
+              placeholder="닉네임 (2자 ~ 15자 내외)"
+              value={displayName || ''}
+              onChange={(e) => setDisplayName(e.target.value)}
+              required
+            />
+            <div style={{ position: 'relative' }}></div>
+
+            <Button
+              className={`${
+                !emailValid || !passwordValid || !matchPassword || !changed
+                  ? 'opacity-30 cursor-not-allowed'
+                  : ''
+              }`}
+            >
+              {updateProfileIsPending ? (
+                <img src={LoadingIcon} alt="계정 생성 중" />
+              ) : (
+                '프로필 수정 완료'
+              )}
+            </Button>
+          </form>
+        </div>
       </div>
-    </main>
+    </div>
   );
 }
