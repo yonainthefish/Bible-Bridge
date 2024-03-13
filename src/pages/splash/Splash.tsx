@@ -13,7 +13,7 @@ export default function Splash() {
         navigate('/login');
       }
     }, 1700);
-  }, [isAuthReady]);
+  }, [isAuthReady, navigate]);
 
   return <p>SPLASHㅗㅗㅗ</p>;
 }
